@@ -1,0 +1,11 @@
+{
+  "groups": [{"id":"QA_GD","name":"Thuốc giảm đau"},{"id":"QA_KS","name":"Kháng sinh"}],
+  "medicines": [
+    {"id":"T001","name":"Paracetamol 500mg","group":"QA_GD","stock":100,"threshold":10,"price":45000,"unit":"Hộp","expiry":"2029-12-31"},
+    {"id":"T002","name":"Ibuprofen","group":"QA_GD","stock":5,"threshold":10,"price":60000,"unit":"Hộp","expiry":"2029-12-31"},
+    {"id":"T003","name":"Amoxicillin","group":"QA_KS","stock":0,"threshold":10,"price":125000,"unit":"Hộp","expiry":"2029-12-31"},
+    {"id":"T004","name":"Cefixim","group":"QA_KS","stock":20,"threshold":10,"price":95000,"unit":"Hộp","expiry":"2029-12-31"}
+  ],
+  "keywords": {"code":"T001","name":"Paracetamol 500mg","not_found":"ZZZ_NOT_FOUND_001","boundary_character":"A"},
+  "threshold_values": {"F5_TC019":"1","F5_TC020":"0","F5_TC021":"-1","F5_TC022":"1.5","F5_TC023":"abc"}
+}

@@ -1,0 +1,3190 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Hệ thống Quản lý Quầy thuốc API (SRS V4.0.0)",
+    "description": "Bộ RESTful API Contract & Backend cho **Hệ thống Quản lý Quầy thuốc V4.0.0** sử dụng **SQLite Database** (Hướng dẫn: TS. Võ Đức Hoàng - Nhóm: Lê Đăng Khánh, Nguyễn Đình Hiến, Bùi Đức Minh Phú).",
+    "version": "4.0.0"
+  },
+  "paths": {
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "1. Quản lý Tài khoản & Xác thực (UC001 - UC004)"
+        ],
+        "summary": "UC001 - Đăng nhập hệ thống",
+        "operationId": "login_endpoint_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts": {
+      "post": {
+        "tags": [
+          "1. Quản lý Tài khoản & Xác thực (UC001 - UC004)"
+        ],
+        "summary": "UC002 & UC003 - Đăng ký / Tạo tài khoản mới (Admin)",
+        "operationId": "register_account_api_v1_accounts_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterAccountRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaiKhoanResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "1. Quản lý Tài khoản & Xác thực (UC001 - UC004)"
+        ],
+        "summary": "UC003 - Xem danh sách & Tìm kiếm tài khoản (Admin)",
+        "operationId": "list_accounts_api_v1_accounts_get",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tìm theo mã, tên đăng nhập, họ tên, email",
+              "title": "Search"
+            },
+            "description": "Tìm theo mã, tên đăng nhập, họ tên, email"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaiKhoanResponse"
+                  },
+                  "title": "Response List Accounts Api V1 Accounts Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{ma_tai_khoan}": {
+      "get": {
+        "tags": [
+          "1. Quản lý Tài khoản & Xác thực (UC001 - UC004)"
+        ],
+        "summary": "UC003 - Xem chi tiết tài khoản (Hình 2-7)",
+        "operationId": "get_account_detail_api_v1_accounts__ma_tai_khoan__get",
+        "parameters": [
+          {
+            "name": "ma_tai_khoan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Tai Khoan"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaiKhoanResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "1. Quản lý Tài khoản & Xác thực (UC001 - UC004)"
+        ],
+        "summary": "UC003 - Sửa thông tin tài khoản (Hình 2-8)",
+        "operationId": "update_account_api_v1_accounts__ma_tai_khoan__put",
+        "parameters": [
+          {
+            "name": "ma_tai_khoan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Tai Khoan"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAccountRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaiKhoanResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "1. Quản lý Tài khoản & Xác thực (UC001 - UC004)"
+        ],
+        "summary": "UC003 - Xóa tài khoản (Hình 2-9)",
+        "operationId": "delete_account_api_v1_accounts__ma_tai_khoan__delete",
+        "parameters": [
+          {
+            "name": "ma_tai_khoan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Tai Khoan"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{ma_tai_khoan}/role": {
+      "patch": {
+        "tags": [
+          "1. Quản lý Tài khoản & Xác thực (UC001 - UC004)"
+        ],
+        "summary": "UC003 - Phân quyền tài khoản (Hình 2-10)",
+        "operationId": "change_account_role_api_v1_accounts__ma_tai_khoan__role_patch",
+        "parameters": [
+          {
+            "name": "ma_tai_khoan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Tai Khoan"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaiKhoanResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{ma_tai_khoan}/status": {
+      "patch": {
+        "tags": [
+          "1. Quản lý Tài khoản & Xác thực (UC001 - UC004)"
+        ],
+        "summary": "UC004 - Quản lý trạng thái tài khoản: Khóa / Mở khóa (Bảng 2-7 & 2-8)",
+        "operationId": "change_account_status_api_v1_accounts__ma_tai_khoan__status_patch",
+        "parameters": [
+          {
+            "name": "ma_tai_khoan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Tai Khoan"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaiKhoanResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts-status-logs": {
+      "get": {
+        "tags": [
+          "1. Quản lý Tài khoản & Xác thực (UC001 - UC004)"
+        ],
+        "summary": "UC004 - Xem lịch sử thay đổi trạng thái tài khoản",
+        "operationId": "get_status_audit_logs_api_v1_accounts_status_logs_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AuditLogStatusResponse"
+                  },
+                  "type": "array",
+                  "title": "Response Get Status Audit Logs Api V1 Accounts Status Logs Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": [
+          "1. Quản lý Tài khoản & Xác thực (UC001 - UC004)"
+        ],
+        "summary": "Thông tin phiên đăng nhập hiện tại",
+        "operationId": "current_session_api_v1_auth_me_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-User-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaiKhoanResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/categories": {
+      "get": {
+        "tags": [
+          "2. Danh mục Thuốc & Tra cứu Tồn kho (UC005, UC008)"
+        ],
+        "summary": "Danh sách Nhóm thuốc (Bảng nhomthuoc)",
+        "operationId": "get_categories_api_v1_categories_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/NhomThuocSchema"
+                  },
+                  "type": "array",
+                  "title": "Response Get Categories Api V1 Categories Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/medicines": {
+      "get": {
+        "tags": [
+          "2. Danh mục Thuốc & Tra cứu Tồn kho (UC005, UC008)"
+        ],
+        "summary": "UC005 & UC008 - Tra cứu danh mục thuốc & lọc tồn kho (Bảng 2-10)",
+        "operationId": "list_medicines_api_v1_medicines_get",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Từ khóa mã/tên thuốc (Bảng 2-10)",
+              "title": "Search"
+            },
+            "description": "Từ khóa mã/tên thuốc (Bảng 2-10)"
+          },
+          {
+            "name": "maNhom",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Lọc theo nhóm dược phẩm",
+              "title": "Manhom"
+            },
+            "description": "Lọc theo nhóm dược phẩm"
+          },
+          {
+            "name": "trangThaiTon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Lọc trạng thái tồn: Còn | Sắp hết | Hết",
+              "title": "Trangthaiton"
+            },
+            "description": "Lọc trạng thái tồn: Còn | Sắp hết | Hết"
+          },
+          {
+            "name": "nguongTonToiThieu",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Ngưỡng tồn tối thiểu tùy chỉnh (>0)",
+              "title": "Nguongtontoithieu"
+            },
+            "description": "Ngưỡng tồn tối thiểu tùy chỉnh (>0)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ThuocResponse"
+                  },
+                  "title": "Response List Medicines Api V1 Medicines Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "2. Danh mục Thuốc & Tra cứu Tồn kho (UC005, UC008)"
+        ],
+        "summary": "UC008 - Thêm thuốc mới vào danh mục (Bảng 2-15 & 2-16)",
+        "operationId": "create_medicine_api_v1_medicines_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ThuocCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThuocResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/medicines/{ma_thuoc}": {
+      "get": {
+        "tags": [
+          "2. Danh mục Thuốc & Tra cứu Tồn kho (UC005, UC008)"
+        ],
+        "summary": "UC005 - Xem chi tiết thuốc & các lô tồn kho (Bảng 2-9 STT 3, 4)",
+        "operationId": "get_medicine_detail_api_v1_medicines__ma_thuoc__get",
+        "parameters": [
+          {
+            "name": "ma_thuoc",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Thuoc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThuocResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "2. Danh mục Thuốc & Tra cứu Tồn kho (UC005, UC008)"
+        ],
+        "summary": "UC008 - Cập nhật thông tin thuốc",
+        "operationId": "update_medicine_api_v1_medicines__ma_thuoc__put",
+        "parameters": [
+          {
+            "name": "ma_thuoc",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Thuoc"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ThuocUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThuocResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "2. Danh mục Thuốc & Tra cứu Tồn kho (UC005, UC008)"
+        ],
+        "summary": "UC008 - Xóa thuốc khỏi danh mục",
+        "operationId": "delete_medicine_api_v1_medicines__ma_thuoc__delete",
+        "parameters": [
+          {
+            "name": "ma_thuoc",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Thuoc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/alerts": {
+      "get": {
+        "tags": [
+          "2. Danh mục Thuốc & Tra cứu Tồn kho (UC005, UC008)"
+        ],
+        "summary": "UC005 - Cảnh báo thuốc sắp hết hàng & sắp hết hạn (Hình 4-12)",
+        "operationId": "get_inventory_alerts_api_v1_inventory_alerts_get",
+        "parameters": [
+          {
+            "name": "daysThreshold",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "default": 90,
+              "title": "Daysthreshold"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryAlertsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/batches": {
+      "get": {
+        "tags": [
+          "2. Danh mục Thuốc & Tra cứu Tồn kho (UC005, UC008)"
+        ],
+        "summary": "UC005 - Danh sách toàn bộ Lô thuốc (Bảng lothuoc)",
+        "operationId": "list_batches_api_v1_inventory_batches_get",
+        "parameters": [
+          {
+            "name": "maThuoc",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Mathuoc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LoThuocSchema"
+                  },
+                  "title": "Response List Batches Api V1 Inventory Batches Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/suppliers": {
+      "get": {
+        "tags": [
+          "3. Quản lý Phiếu Nhập & Nhà Cung Cấp (UC007)"
+        ],
+        "summary": "Danh sách Nhà cung cấp (Bảng nhacungcap)",
+        "operationId": "get_suppliers_api_v1_suppliers_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/NhaCungCapSchema"
+                  },
+                  "type": "array",
+                  "title": "Response Get Suppliers Api V1 Suppliers Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/import-vouchers": {
+      "get": {
+        "tags": [
+          "3. Quản lý Phiếu Nhập & Nhà Cung Cấp (UC007)"
+        ],
+        "summary": "UC007 - Xem danh sách Phiếu Nhập Kho (Read)",
+        "operationId": "list_import_vouchers_api_v1_import_vouchers_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PhieuNhapResponse"
+                  },
+                  "type": "array",
+                  "title": "Response List Import Vouchers Api V1 Import Vouchers Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "3. Quản lý Phiếu Nhập & Nhà Cung Cấp (UC007)"
+        ],
+        "summary": "UC007 - Lập Phiếu Nhập Kho mới & Tự động cộng Tồn Kho (Create)",
+        "operationId": "create_import_voucher_api_v1_import_vouchers_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhieuNhapCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhieuNhapResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/import-vouchers/{ma_pn}": {
+      "get": {
+        "tags": [
+          "3. Quản lý Phiếu Nhập & Nhà Cung Cấp (UC007)"
+        ],
+        "summary": "UC007 - Xem chi tiết Phiếu Nhập Kho (Read)",
+        "operationId": "get_import_voucher_api_v1_import_vouchers__ma_pn__get",
+        "parameters": [
+          {
+            "name": "ma_pn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Pn"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhieuNhapResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "3. Quản lý Phiếu Nhập & Nhà Cung Cấp (UC007)"
+        ],
+        "summary": "UC007 - Cập nhật Phiếu Nhập Kho & Đồng bộ lại Tồn Kho (Update)",
+        "operationId": "update_import_voucher_api_v1_import_vouchers__ma_pn__put",
+        "parameters": [
+          {
+            "name": "ma_pn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Pn"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhieuNhapUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhieuNhapResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "3. Quản lý Phiếu Nhập & Nhà Cung Cấp (UC007)"
+        ],
+        "summary": "UC007 - Xóa / Hủy Phiếu Nhập Kho & Hoàn trả Tồn Kho (Delete)",
+        "operationId": "delete_import_voucher_api_v1_import_vouchers__ma_pn__delete",
+        "parameters": [
+          {
+            "name": "ma_pn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Pn"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/export-vouchers": {
+      "get": {
+        "tags": [
+          "4. Quản lý Phiếu Xuất & Bán lẻ POS (UC006)"
+        ],
+        "summary": "UC006 - Xem danh sách Phiếu Xuất / Lịch sử bán hàng (Hình 2-13)",
+        "operationId": "list_export_vouchers_api_v1_export_vouchers_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PhieuXuatResponse"
+                  },
+                  "type": "array",
+                  "title": "Response List Export Vouchers Api V1 Export Vouchers Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "4. Quản lý Phiếu Xuất & Bán lẻ POS (UC006)"
+        ],
+        "summary": "UC006 - Tạo Phiếu Xuất bán lẻ / theo đơn & Tự động trừ Tồn Kho (Hình 2-14)",
+        "operationId": "create_export_voucher_api_v1_export_vouchers_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhieuXuatCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhieuXuatResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/export-vouchers/{ma_px}": {
+      "get": {
+        "tags": [
+          "4. Quản lý Phiếu Xuất & Bán lẻ POS (UC006)"
+        ],
+        "summary": "UC006 - Xem chi tiết Phiếu Xuất (Hình 2-13)",
+        "operationId": "get_export_voucher_api_v1_export_vouchers__ma_px__get",
+        "parameters": [
+          {
+            "name": "ma_px",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Px"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhieuXuatResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "4. Quản lý Phiếu Xuất & Bán lẻ POS (UC006)"
+        ],
+        "summary": "UC006 - Cập nhật / Điều chỉnh Phiếu Xuất & Đồng bộ Tồn Kho (Hình 2-15)",
+        "operationId": "update_export_voucher_api_v1_export_vouchers__ma_px__put",
+        "parameters": [
+          {
+            "name": "ma_px",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Px"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhieuXuatUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhieuXuatResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "4. Quản lý Phiếu Xuất & Bán lẻ POS (UC006)"
+        ],
+        "summary": "UC006 - Xóa / Hủy Phiếu Xuất khi có sai sót/trả hàng & Hoàn Tồn Kho (Hình 2-16)",
+        "operationId": "delete_export_voucher_api_v1_export_vouchers__ma_px__delete",
+        "parameters": [
+          {
+            "name": "ma_px",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ma Px"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/activity": {
+      "get": {
+        "tags": [
+          "5. Báo cáo & Thống kê (UC009, UC010, UC011)"
+        ],
+        "summary": "UC009 - Báo cáo hoạt động Nhập / Xuất kho (Bảng 2-17 & 2-18)",
+        "operationId": "get_activity_report_api_v1_reports_activity_get",
+        "parameters": [
+          {
+            "name": "fromDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Từ ngày (YYYY-MM-DD)",
+              "title": "Fromdate"
+            },
+            "description": "Từ ngày (YYYY-MM-DD)"
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Đến ngày (YYYY-MM-DD)",
+              "title": "Todate"
+            },
+            "description": "Đến ngày (YYYY-MM-DD)"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "ALL | IMPORT | EXPORT",
+              "default": "ALL",
+              "title": "Type"
+            },
+            "description": "ALL | IMPORT | EXPORT"
+          },
+          {
+            "name": "maThuoc",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Lọc theo Mã thuốc (Bảng 2-18 STT 4)",
+              "title": "Mathuoc"
+            },
+            "description": "Lọc theo Mã thuốc (Bảng 2-18 STT 4)"
+          },
+          {
+            "name": "maNhom",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Lọc theo Nhóm thuốc (Bảng 2-18 STT 5)",
+              "title": "Manhom"
+            },
+            "description": "Lọc theo Nhóm thuốc (Bảng 2-18 STT 5)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityReportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/top-selling": {
+      "get": {
+        "tags": [
+          "5. Báo cáo & Thống kê (UC009, UC010, UC011)"
+        ],
+        "summary": "UC010 - Thống kê thuốc bán chạy (Bảng 2-19 & 2-20)",
+        "operationId": "get_top_selling_report_api_v1_reports_top_selling_get",
+        "parameters": [
+          {
+            "name": "fromDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Fromdate"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Todate"
+            }
+          },
+          {
+            "name": "topN",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "Số lượng xếp hạng (>0) - Bảng 2-20 STT 2",
+              "default": 10,
+              "title": "Topn"
+            },
+            "description": "Số lượng xếp hạng (>0) - Bảng 2-20 STT 2"
+          },
+          {
+            "name": "maNhom",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Lọc theo nhóm thuốc - Bảng 2-20 STT 3",
+              "title": "Manhom"
+            },
+            "description": "Lọc theo nhóm thuốc - Bảng 2-20 STT 3"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "QUANTITY",
+                "REVENUE"
+              ],
+              "type": "string",
+              "description": "Tiêu chí: QUANTITY (Số lượng) | REVENUE (Doanh thu)",
+              "default": "QUANTITY",
+              "title": "Sortby"
+            },
+            "description": "Tiêu chí: QUANTITY (Số lượng) | REVENUE (Doanh thu)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TopSellingItem"
+                  },
+                  "title": "Response Get Top Selling Report Api V1 Reports Top Selling Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/revenue": {
+      "get": {
+        "tags": [
+          "5. Báo cáo & Thống kê (UC009, UC010, UC011)"
+        ],
+        "summary": "UC011 - Báo cáo doanh thu (Bảng 2-21 & 2-22)",
+        "operationId": "get_revenue_report_api_v1_reports_revenue_get",
+        "parameters": [
+          {
+            "name": "fromDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Từ ngày (YYYY-MM-DD)",
+              "title": "Fromdate"
+            },
+            "description": "Từ ngày (YYYY-MM-DD)"
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Đến ngày (YYYY-MM-DD)",
+              "title": "Todate"
+            },
+            "description": "Đến ngày (YYYY-MM-DD)"
+          },
+          {
+            "name": "loaiXuat",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Lọc hình thức xuất: Bán lẻ trực tiếp | Theo đơn",
+              "title": "Loaixuat"
+            },
+            "description": "Lọc hình thức xuất: Bán lẻ trực tiếp | Theo đơn"
+          },
+          {
+            "name": "maDuocSi",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Lọc theo Mã Dược sĩ bán hàng (Bảng 2-22 STT 4)",
+              "title": "Maduocsi"
+            },
+            "description": "Lọc theo Mã Dược sĩ bán hàng (Bảng 2-22 STT 4)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevenueReportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Health Check"
+        ],
+        "summary": "Health Check",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActivityReportResponse": {
+        "properties": {
+          "tuNgay": {
+            "type": "string",
+            "title": "Tungay"
+          },
+          "denNgay": {
+            "type": "string",
+            "title": "Denngay"
+          },
+          "loaiHoatDong": {
+            "type": "string",
+            "title": "Loaihoatdong"
+          },
+          "totalQuantity": {
+            "type": "integer",
+            "title": "Totalquantity"
+          },
+          "totalAmount": {
+            "type": "integer",
+            "title": "Totalamount"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/ActivityReportRow"
+            },
+            "type": "array",
+            "title": "Rows"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tuNgay",
+          "denNgay",
+          "loaiHoatDong",
+          "totalQuantity",
+          "totalAmount",
+          "rows"
+        ],
+        "title": "ActivityReportResponse"
+      },
+      "ActivityReportRow": {
+        "properties": {
+          "maPhieu": {
+            "type": "string",
+            "title": "Maphieu"
+          },
+          "loai": {
+            "type": "string",
+            "enum": [
+              "Nhập kho",
+              "Xuất kho"
+            ],
+            "title": "Loai"
+          },
+          "ngayGD": {
+            "type": "string",
+            "title": "Ngaygd"
+          },
+          "maThuoc": {
+            "type": "string",
+            "title": "Mathuoc"
+          },
+          "tenThuoc": {
+            "type": "string",
+            "title": "Tenthuoc"
+          },
+          "maNhom": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Manhom"
+          },
+          "soLuong": {
+            "type": "integer",
+            "title": "Soluong"
+          },
+          "donGia": {
+            "type": "integer",
+            "title": "Dongia"
+          },
+          "thanhTien": {
+            "type": "integer",
+            "title": "Thanhtien"
+          },
+          "nguoiThucHien": {
+            "type": "string",
+            "title": "Nguoithuchien"
+          }
+        },
+        "type": "object",
+        "required": [
+          "maPhieu",
+          "loai",
+          "ngayGD",
+          "maThuoc",
+          "tenThuoc",
+          "soLuong",
+          "donGia",
+          "thanhTien",
+          "nguoiThucHien"
+        ],
+        "title": "ActivityReportRow"
+      },
+      "AuditLogStatusResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "maTaiKhoan": {
+            "type": "string",
+            "title": "Mataikhoan"
+          },
+          "tenTaiKhoan": {
+            "type": "string",
+            "title": "Tentaikhoan"
+          },
+          "trangThaiCu": {
+            "type": "string",
+            "enum": [
+              "Hoạt động",
+              "Khóa"
+            ],
+            "title": "Trangthaicu"
+          },
+          "trangThaiMoi": {
+            "type": "string",
+            "enum": [
+              "Hoạt động",
+              "Khóa"
+            ],
+            "title": "Trangthaimoi"
+          },
+          "lyDo": {
+            "type": "string",
+            "title": "Lydo"
+          },
+          "nguoiThucHien": {
+            "type": "string",
+            "title": "Nguoithuchien"
+          },
+          "thoiDiem": {
+            "type": "string",
+            "title": "Thoidiem"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "maTaiKhoan",
+          "tenTaiKhoan",
+          "trangThaiCu",
+          "trangThaiMoi",
+          "lyDo",
+          "nguoiThucHien",
+          "thoiDiem"
+        ],
+        "title": "AuditLogStatusResponse"
+      },
+      "ChiTietPhieuNhapItem": {
+        "properties": {
+          "maThuoc": {
+            "type": "string",
+            "title": "Mathuoc",
+            "description": "Mã thuốc tồn tại trong danh mục"
+          },
+          "tenThuoc": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tenthuoc"
+          },
+          "maLo": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Malo",
+            "description": "Mã lô sản xuất (VD: LOT2024-A1)"
+          },
+          "soLuongNhap": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Soluongnhap",
+            "description": "Số lượng nhập thực tế (> 0)"
+          },
+          "donGiaNhap": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Dongianhap",
+            "description": "Giá vốn nhập vào (>= 0)"
+          },
+          "hanSuDung": {
+            "type": "string",
+            "title": "Hansudung",
+            "description": "Hạn sử dụng phải sau ngày nhập hàng (YYYY-MM-DD)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "maThuoc",
+          "maLo",
+          "soLuongNhap",
+          "donGiaNhap",
+          "hanSuDung"
+        ],
+        "title": "ChiTietPhieuNhapItem"
+      },
+      "ChiTietPhieuXuatItem": {
+        "properties": {
+          "maThuoc": {
+            "type": "string",
+            "title": "Mathuoc",
+            "description": "Mã thuốc"
+          },
+          "tenThuoc": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tenthuoc"
+          },
+          "donViTinh": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Donvitinh"
+          },
+          "soLuongXuat": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Soluongxuat",
+            "description": "Số lượng thuốc nguyên dương (> 0)"
+          },
+          "donGiaBan": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Dongiaban",
+            "description": "Giá bán thực tế"
+          },
+          "thanhTien": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thanhtien"
+          }
+        },
+        "type": "object",
+        "required": [
+          "maThuoc",
+          "soLuongXuat",
+          "donGiaBan"
+        ],
+        "title": "ChiTietPhieuXuatItem"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "InventoryAlertsResponse": {
+        "properties": {
+          "tongThuocSapHet": {
+            "type": "integer",
+            "title": "Tongthuocsaphet"
+          },
+          "tongThuocSapHetHan": {
+            "type": "integer",
+            "title": "Tongthuocsaphethan"
+          },
+          "danhSachSapHet": {
+            "items": {
+              "$ref": "#/components/schemas/ThuocResponse"
+            },
+            "type": "array",
+            "title": "Danhsachsaphet"
+          },
+          "danhSachSapHetHan": {
+            "items": {
+              "$ref": "#/components/schemas/ThuocResponse"
+            },
+            "type": "array",
+            "title": "Danhsachsaphethan"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tongThuocSapHet",
+          "tongThuocSapHetHan",
+          "danhSachSapHet",
+          "danhSachSapHetHan"
+        ],
+        "title": "InventoryAlertsResponse"
+      },
+      "LoThuocSchema": {
+        "properties": {
+          "maLo": {
+            "type": "string",
+            "title": "Malo"
+          },
+          "maThuoc": {
+            "type": "string",
+            "title": "Mathuoc"
+          },
+          "hanSuDung": {
+            "type": "string",
+            "title": "Hansudung"
+          },
+          "soLuongTonLo": {
+            "type": "integer",
+            "title": "Soluongtonlo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "maLo",
+          "maThuoc",
+          "hanSuDung",
+          "soLuongTonLo"
+        ],
+        "title": "LoThuocSchema"
+      },
+      "LoginRequest": {
+        "properties": {
+          "tenDangNhap": {
+            "type": "string",
+            "minLength": 8,
+            "title": "Tendangnhap",
+            "description": "Tối thiểu 8 ký tự (Bảng 2-2)"
+          },
+          "matKhau": {
+            "type": "string",
+            "minLength": 6,
+            "title": "Matkhau",
+            "description": "Tối thiểu 6 ký tự (Bảng 2-2)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tenDangNhap",
+          "matKhau"
+        ],
+        "title": "LoginRequest"
+      },
+      "LoginResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success"
+          },
+          "accessToken": {
+            "type": "string",
+            "title": "Accesstoken"
+          },
+          "tokenType": {
+            "type": "string",
+            "title": "Tokentype",
+            "default": "Bearer"
+          },
+          "user": {
+            "$ref": "#/components/schemas/TaiKhoanResponse"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Đăng nhập thành công"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "accessToken",
+          "user"
+        ],
+        "title": "LoginResponse"
+      },
+      "NhaCungCapSchema": {
+        "properties": {
+          "maNCC": {
+            "type": "string",
+            "title": "Mancc"
+          },
+          "tenNCC": {
+            "type": "string",
+            "title": "Tenncc"
+          },
+          "soDienThoai": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sodienthoai"
+          },
+          "diaChi": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Diachi"
+          }
+        },
+        "type": "object",
+        "required": [
+          "maNCC",
+          "tenNCC"
+        ],
+        "title": "NhaCungCapSchema"
+      },
+      "NhomThuocSchema": {
+        "properties": {
+          "maNhom": {
+            "type": "string",
+            "title": "Manhom"
+          },
+          "tenNhom": {
+            "type": "string",
+            "title": "Tennhom"
+          }
+        },
+        "type": "object",
+        "required": [
+          "maNhom",
+          "tenNhom"
+        ],
+        "title": "NhomThuocSchema"
+      },
+      "PhieuNhapCreateRequest": {
+        "properties": {
+          "maPN": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mapn"
+          },
+          "ngayNhap": {
+            "type": "string",
+            "title": "Ngaynhap",
+            "description": "Thời điểm nhập hàng vào kho"
+          },
+          "maNCC": {
+            "type": "string",
+            "title": "Mancc",
+            "description": "Mã nhà cung cấp"
+          },
+          "nguoiLap": {
+            "type": "string",
+            "title": "Nguoilap",
+            "description": "Mã tài khoản Quản lý lập phiếu"
+          },
+          "chiTiet": {
+            "items": {
+              "$ref": "#/components/schemas/ChiTietPhieuNhapItem"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Chitiet"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ngayNhap",
+          "maNCC",
+          "nguoiLap",
+          "chiTiet"
+        ],
+        "title": "PhieuNhapCreateRequest"
+      },
+      "PhieuNhapResponse": {
+        "properties": {
+          "maPN": {
+            "type": "string",
+            "title": "Mapn"
+          },
+          "ngayNhap": {
+            "type": "string",
+            "title": "Ngaynhap"
+          },
+          "maNCC": {
+            "type": "string",
+            "title": "Mancc"
+          },
+          "tenNCC": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tenncc"
+          },
+          "nguoiLap": {
+            "type": "string",
+            "title": "Nguoilap"
+          },
+          "tenNguoiLap": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tennguoilap"
+          },
+          "tongTien": {
+            "type": "integer",
+            "title": "Tongtien"
+          },
+          "chiTiet": {
+            "items": {
+              "$ref": "#/components/schemas/ChiTietPhieuNhapItem"
+            },
+            "type": "array",
+            "title": "Chitiet"
+          }
+        },
+        "type": "object",
+        "required": [
+          "maPN",
+          "ngayNhap",
+          "maNCC",
+          "nguoiLap",
+          "tongTien",
+          "chiTiet"
+        ],
+        "title": "PhieuNhapResponse"
+      },
+      "PhieuNhapUpdateRequest": {
+        "properties": {
+          "ngayNhap": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ngaynhap"
+          },
+          "maNCC": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mancc"
+          },
+          "chiTiet": {
+            "items": {
+              "$ref": "#/components/schemas/ChiTietPhieuNhapItem"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Chitiet"
+          }
+        },
+        "type": "object",
+        "required": [
+          "chiTiet"
+        ],
+        "title": "PhieuNhapUpdateRequest"
+      },
+      "PhieuXuatCreateRequest": {
+        "properties": {
+          "maPX": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mapx"
+          },
+          "nguoiBan": {
+            "type": "string",
+            "title": "Nguoiban",
+            "description": "Mã tài khoản Dược sĩ bán thuốc"
+          },
+          "ngayBan": {
+            "type": "string",
+            "title": "Ngayban",
+            "description": "Ngày bán"
+          },
+          "loaiXuat": {
+            "type": "string",
+            "enum": [
+              "Bán lẻ trực tiếp",
+              "Theo đơn"
+            ],
+            "title": "Loaixuat",
+            "default": "Bán lẻ trực tiếp"
+          },
+          "tenKhachHang": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tenkhachhang"
+          },
+          "chietKhau": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Chietkhau",
+            "default": 0
+          },
+          "phuongThucThanhToan": {
+            "type": "string",
+            "enum": [
+              "Tiền mặt",
+              "Chuyển khoản"
+            ],
+            "title": "Phuongthucthanhtoan",
+            "default": "Tiền mặt"
+          },
+          "chiTiet": {
+            "items": {
+              "$ref": "#/components/schemas/ChiTietPhieuXuatItem"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Chitiet"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nguoiBan",
+          "ngayBan",
+          "chiTiet"
+        ],
+        "title": "PhieuXuatCreateRequest"
+      },
+      "PhieuXuatResponse": {
+        "properties": {
+          "maPX": {
+            "type": "string",
+            "title": "Mapx"
+          },
+          "nguoiBan": {
+            "type": "string",
+            "title": "Nguoiban"
+          },
+          "tenNguoiBan": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tennguoiban"
+          },
+          "ngayBan": {
+            "type": "string",
+            "title": "Ngayban"
+          },
+          "loaiXuat": {
+            "type": "string",
+            "title": "Loaixuat"
+          },
+          "tenKhachHang": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tenkhachhang"
+          },
+          "chietKhau": {
+            "type": "integer",
+            "title": "Chietkhau"
+          },
+          "tongTien": {
+            "type": "integer",
+            "title": "Tongtien"
+          },
+          "phuongThucThanhToan": {
+            "type": "string",
+            "title": "Phuongthucthanhtoan",
+            "default": "Tiền mặt"
+          },
+          "chiTiet": {
+            "items": {
+              "$ref": "#/components/schemas/ChiTietPhieuXuatItem"
+            },
+            "type": "array",
+            "title": "Chitiet"
+          }
+        },
+        "type": "object",
+        "required": [
+          "maPX",
+          "nguoiBan",
+          "ngayBan",
+          "loaiXuat",
+          "chietKhau",
+          "tongTien",
+          "chiTiet"
+        ],
+        "title": "PhieuXuatResponse"
+      },
+      "PhieuXuatUpdateRequest": {
+        "properties": {
+          "loaiXuat": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Bán lẻ trực tiếp",
+                  "Theo đơn"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Loaixuat"
+          },
+          "tenKhachHang": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tenkhachhang"
+          },
+          "chietKhau": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Chietkhau",
+            "default": 0
+          },
+          "phuongThucThanhToan": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Tiền mặt",
+                  "Chuyển khoản"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phuongthucthanhtoan"
+          },
+          "chiTiet": {
+            "items": {
+              "$ref": "#/components/schemas/ChiTietPhieuXuatItem"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Chitiet"
+          }
+        },
+        "type": "object",
+        "required": [
+          "chiTiet"
+        ],
+        "title": "PhieuXuatUpdateRequest"
+      },
+      "RegisterAccountRequest": {
+        "properties": {
+          "tenDangNhap": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 8,
+            "title": "Tendangnhap",
+            "description": "Tối thiểu 8 ký tự"
+          },
+          "matKhau": {
+            "type": "string",
+            "minLength": 6,
+            "title": "Matkhau",
+            "description": "Ít nhất 6 ký tự"
+          },
+          "xacNhanMatKhau": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Xacnhanmatkhau",
+            "description": "Trùng với Mật khẩu"
+          },
+          "hoTen": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Hoten",
+            "description": "Họ và tên nhân viên"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "soDienThoai": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sodienthoai"
+          },
+          "maVaiTro": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "QUANLY",
+              "DUOCSI"
+            ],
+            "title": "Mavaitro",
+            "description": "Vai trò: ADMIN | QUANLY | DUOCSI",
+            "default": "DUOCSI"
+          },
+          "ghiChu": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ghichu"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tenDangNhap",
+          "matKhau",
+          "hoTen"
+        ],
+        "title": "RegisterAccountRequest"
+      },
+      "RevenueReportResponse": {
+        "properties": {
+          "tuNgay": {
+            "type": "string",
+            "title": "Tungay"
+          },
+          "denNgay": {
+            "type": "string",
+            "title": "Denngay"
+          },
+          "tongDoanhThu": {
+            "type": "integer",
+            "title": "Tongdoanhthu"
+          },
+          "tongChietKhau": {
+            "type": "integer",
+            "title": "Tongchietkhau"
+          },
+          "soHoaDon": {
+            "type": "integer",
+            "title": "Sohoadon"
+          },
+          "donViTienTe": {
+            "type": "string",
+            "title": "Donvitiente",
+            "default": "VND"
+          },
+          "danhSachHoaDon": {
+            "items": {
+              "$ref": "#/components/schemas/PhieuXuatResponse"
+            },
+            "type": "array",
+            "title": "Danhsachhoadon"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tuNgay",
+          "denNgay",
+          "tongDoanhThu",
+          "tongChietKhau",
+          "soHoaDon",
+          "danhSachHoaDon"
+        ],
+        "title": "RevenueReportResponse"
+      },
+      "TaiKhoanResponse": {
+        "properties": {
+          "maTaiKhoan": {
+            "type": "string",
+            "title": "Mataikhoan"
+          },
+          "tenDangNhap": {
+            "type": "string",
+            "title": "Tendangnhap"
+          },
+          "hoTen": {
+            "type": "string",
+            "title": "Hoten"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "soDienThoai": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sodienthoai"
+          },
+          "maVaiTro": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "QUANLY",
+              "DUOCSI"
+            ],
+            "title": "Mavaitro"
+          },
+          "trangThai": {
+            "type": "string",
+            "enum": [
+              "Hoạt động",
+              "Khóa"
+            ],
+            "title": "Trangthai"
+          },
+          "ngayTao": {
+            "type": "string",
+            "title": "Ngaytao"
+          },
+          "ghiChu": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ghichu"
+          }
+        },
+        "type": "object",
+        "required": [
+          "maTaiKhoan",
+          "tenDangNhap",
+          "hoTen",
+          "maVaiTro",
+          "trangThai",
+          "ngayTao"
+        ],
+        "title": "TaiKhoanResponse"
+      },
+      "ThuocCreateRequest": {
+        "properties": {
+          "maThuoc": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Mathuoc",
+            "description": "ID duy nhất của thuốc (Bảng 2-16)"
+          },
+          "tenThuoc": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Tenthuoc",
+            "description": "Tên thương mại dược phẩm"
+          },
+          "maNhom": {
+            "type": "string",
+            "title": "Manhom",
+            "description": "Mã nhóm thuốc"
+          },
+          "donViTinh": {
+            "type": "string",
+            "title": "Donvitinh",
+            "description": "Viên, Vỉ, Hộp, Lọ, Tuýp, Gói"
+          },
+          "giaBan": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Giaban",
+            "description": "Đơn giá bán lẻ hiện hành (> 0)"
+          },
+          "tonToiThieu": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Tontoithieu",
+            "description": "Ngưỡng cảnh báo sắp hết hàng",
+            "default": 10
+          },
+          "hanSuDung": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hansudung",
+            "description": "Hạn sử dụng (YYYY-MM-DD)"
+          },
+          "quyCach": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quycach"
+          },
+          "hoatChat": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hoatchat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "maThuoc",
+          "tenThuoc",
+          "maNhom",
+          "donViTinh",
+          "giaBan"
+        ],
+        "title": "ThuocCreateRequest"
+      },
+      "ThuocResponse": {
+        "properties": {
+          "maThuoc": {
+            "type": "string",
+            "title": "Mathuoc"
+          },
+          "tenThuoc": {
+            "type": "string",
+            "title": "Tenthuoc"
+          },
+          "maNhom": {
+            "type": "string",
+            "title": "Manhom"
+          },
+          "tenNhom": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tennhom"
+          },
+          "donViTinh": {
+            "type": "string",
+            "title": "Donvitinh"
+          },
+          "giaBan": {
+            "type": "integer",
+            "title": "Giaban"
+          },
+          "tongTonKho": {
+            "type": "integer",
+            "title": "Tongtonkho"
+          },
+          "tonToiThieu": {
+            "type": "integer",
+            "title": "Tontoithieu"
+          },
+          "hanSuDung": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hansudung"
+          },
+          "quyCach": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quycach"
+          },
+          "hoatChat": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hoatchat"
+          },
+          "trangThaiTon": {
+            "type": "string",
+            "title": "Trangthaiton",
+            "default": "Còn hàng"
+          },
+          "danhSachLo": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/LoThuocSchema"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Danhsachlo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "maThuoc",
+          "tenThuoc",
+          "maNhom",
+          "donViTinh",
+          "giaBan",
+          "tongTonKho",
+          "tonToiThieu"
+        ],
+        "title": "ThuocResponse"
+      },
+      "ThuocUpdateRequest": {
+        "properties": {
+          "tenThuoc": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Tenthuoc"
+          },
+          "maNhom": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Manhom"
+          },
+          "donViTinh": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Donvitinh"
+          },
+          "giaBan": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Giaban"
+          },
+          "tonToiThieu": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Tontoithieu",
+            "default": 10
+          },
+          "hanSuDung": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hansudung"
+          },
+          "quyCach": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quycach"
+          },
+          "hoatChat": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hoatchat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tenThuoc",
+          "giaBan"
+        ],
+        "title": "ThuocUpdateRequest"
+      },
+      "TopSellingItem": {
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "title": "Rank"
+          },
+          "maThuoc": {
+            "type": "string",
+            "title": "Mathuoc"
+          },
+          "tenThuoc": {
+            "type": "string",
+            "title": "Tenthuoc"
+          },
+          "maNhom": {
+            "type": "string",
+            "title": "Manhom"
+          },
+          "tenNhom": {
+            "type": "string",
+            "title": "Tennhom"
+          },
+          "soLuong": {
+            "type": "integer",
+            "title": "Soluong"
+          },
+          "doanhThu": {
+            "type": "integer",
+            "title": "Doanhthu"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rank",
+          "maThuoc",
+          "tenThuoc",
+          "maNhom",
+          "tenNhom",
+          "soLuong",
+          "doanhThu"
+        ],
+        "title": "TopSellingItem"
+      },
+      "UpdateAccountRequest": {
+        "properties": {
+          "hoTen": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Hoten"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "soDienThoai": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sodienthoai"
+          },
+          "matKhauMoi": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 6
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Matkhaumoi"
+          },
+          "xacNhanMatKhau": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Xacnhanmatkhau"
+          },
+          "maVaiTro": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ADMIN",
+                  "QUANLY",
+                  "DUOCSI"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mavaitro"
+          },
+          "trangThai": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Hoạt động",
+                  "Khóa"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trangthai"
+          },
+          "ghiChu": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ghichu"
+          }
+        },
+        "type": "object",
+        "required": [
+          "hoTen"
+        ],
+        "title": "UpdateAccountRequest"
+      },
+      "UpdateRoleRequest": {
+        "properties": {
+          "maVaiTro": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "QUANLY",
+              "DUOCSI"
+            ],
+            "title": "Mavaitro",
+            "description": "Quyền hệ thống (ADMIN / QUANLY / DUOCSI)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "maVaiTro"
+        ],
+        "title": "UpdateRoleRequest"
+      },
+      "UpdateStatusRequest": {
+        "properties": {
+          "trangThaiMoi": {
+            "type": "string",
+            "enum": [
+              "Hoạt động",
+              "Khóa"
+            ],
+            "title": "Trangthaimoi",
+            "description": "Chọn: Hoạt động / Khóa"
+          },
+          "lyDo": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lydo",
+            "description": "Lý do khóa/mở khóa (tối đa 500 ký tự)"
+          },
+          "nguoiThucHien": {
+            "type": "string",
+            "title": "Nguoithuchien",
+            "description": "Admin thực hiện thao tác",
+            "default": "admin_clin_01"
+          }
+        },
+        "type": "object",
+        "required": [
+          "trangThaiMoi"
+        ],
+        "title": "UpdateStatusRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

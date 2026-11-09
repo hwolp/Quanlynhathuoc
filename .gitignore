@@ -1,0 +1,46 @@
+# Dependencies and build output
+node_modules/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Local configuration; keep shareable examples
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Runtime databases and logs
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.log
+
+# Generated QA artifacts
+playwright-report/
+test-results/
+/FE/qa/
+/Testing/reports/
+/Testing/runs/
+/outputs/
+
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+~$*

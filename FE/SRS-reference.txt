@@ -1,0 +1,2686 @@
+
+
+Software Requirements
+Specification
+for
+Quản lý hệ thống quầy thuốc
+Phiên bản 4.0.0
+Hướng dẫn bởi: TS. Võ Đức Hoàng
+Được soạn thảo bởi:
+Lê Đăng Khánh
+Nguyễn Đình Hiến
+Bùi Đức Minh Phú
+
+Đà Nẵng, tháng 1, năm 2026
+
+
+Mục lục
+Giới thiệu ...................................................................................................................... 1
+Mục đích ............................................................................................................... 1
+Phạm vi ................................................................................................................. 1
+Từ điển thuật ngữ .................................................................................................. 1
+Tài liệu tham khảo ................................................................................................ 3
+Tổng quát .............................................................................................................. 3
+Bối cảnh sản phẩm ............................................................................................ 3
+Đặc điểm người sử dụng ................................................................................... 3
+Các yêu cầu chức năng ................................................................................................ 4
+Các tác nhân .......................................................................................................... 4
+Các chức năng hệ thống ........................................................................................ 4
+Biểu đồ use case tổng quan ................................................................................... 6
+Biều đồ use case phân rã ....................................................................................... 7
+Phân rã use case “Admin” ................................................................................. 7
+Phân rã use case “Quản lý” ............................................................................... 8
+Phân rã Use Case “Dược sĩ” ............................................................................. 8
+Sơ đồ tuần tự ......................................................................................................... 9
+Đăng nhập ......................................................................................................... 9
+Đăng ký ........................................................................................................... 10
+Quản lý tài khoản ............................................................................................ 11
+Quản lý trạng thái tài khoản ............................................................................ 14
+Tra cứu tồn kho ............................................................................................... 14
+Quản lý phiếu xuất .......................................................................................... 15
+Báo cáo hoạt động ........................................................................................... 18
+Thống kê thuốc bán chạy ................................................................................ 19
+Báo cáo doanh thu ........................................................................................... 20
+Đặc tả use case .................................................................................................... 21
+Đăng nhập ....................................................................................................... 21
+Đăng ký ........................................................................................................... 22
+Quản lý tài khoản ............................................................................................ 23
+Quản lý trạng thái tài khoản ............................................................................ 26
+Tra cứu tồn kho ............................................................................................... 27
+Quản lý phiếu xuất .......................................................................................... 28
+Quản lý phiếu nhập ......................................................................................... 31
+Quản lý thuốc .................................................................................................. 34
+Báo cáo hoạt động ........................................................................................... 35
+Thống kê thuốc bán chạy ................................................................................ 36
+Báo cáo doanh thu ........................................................................................... 38
+Biểu đồ hoạt động ............................................................................................... 40
+Biều đồ hoạt động bán thuốc........................................................................... 40
+Biểu đồ hoạt động nhập thuốc vào kho ........................................................... 41
+Biểu đồ hoạt động báo cáo hoạt động ............................................................. 42
+Biểu đồ hoạt động báo cáo doanh thu ............................................................. 43
+Các yêu cầu phi chức năng ........................................................................................ 44
+Giao diện người dùng (Usability) ....................................................................... 44
+Tính bảo mật (Security) ...................................................................................... 44
+Ràng buộc hệ thống (Constraints) ...................................................................... 44
+Hiệu suất (Performance) ..................................................................................... 44
+Thiết kế chương trình ................................................................................................ 45
+Thiết kế kiến trúc ................................................................................................ 45
+Thiết kế cơ sở dữ liệu ......................................................................................... 47
+Thiết kế cơ sỡ dữ liệu cho nhóm Quản lý tài khoản ....................................... 47
+Thiết kế cơ sở dữ liệu cho nhóm Quản lý danh mục thuốc & Tồn kho .......... 49
+Thiết kế CSDL cho nhóm Quản lý Nhập/Xuất ............................................... 51
+Thiết kế chi tiết các gói ....................................................................................... 52
+Thiết kế chi tiết lớp ............................................................................................. 54
+Sơ đồ lớp chi tiết ................................................................................................. 59
+Thiết kế giao diện ............................................................................................... 60
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Danh sách hình vẽ  Hình 2-1 Sơ đồ Use Case tổng quan hệ thống6
+Hình 2-2 Sơ đồ phân rã Use case “Admin”7
+Hình 2-3 Sơ đồ phân rã Use case “Quản lý”8
+Hình 2-4 Sơ đồ phân rã Use case “Dược sĩ”8
+Hình 2-5 Sơ đồ tuần tự đăng nhập9
+Hình 2-6 Sơ đồ tuần tự đăng ký10
+Hình 2-7 Sơ đồ tuần tự xem chi tiết tài khoản11
+Hình 2-8 Sơ đồ tuần tự sửa tài khoản12
+Hình 2-9 Sơ tuần tuần tự xóa tài khoản13
+Hình 2-10 Sơ đồ tuần tự phân quyền tài khoản13
+Hình 2-11 Sơ đồ tuần tự quản lý trạng thái tài khoản14
+Hình 2-12 Sơ đồ tuần tự tra cứu tồn kho14
+Hình 2-13 Sơ đồ tuần tự xem chi tiết phiếu xuất15
+Hình 2-14 Sơ đồ tuần tự tạo phiếu xuất16
+Hình 2-15 Sơ đồ tuần tự cập nhât phiếu xuất16
+Hình 2-16 Sơ đồ tuần tự xóa phiếu xuất17
+Hình 2-17 Sơ đồ tuần tự báo cáo hoạt động18
+Hình 2-18 Sơ đồ tuần tự thống kê thuốc bán chạy19
+Hình 2-19 Sơ đồ tuần tự báo cáo doanh thu20
+Hình 2-20 Biểu đồ hoạt động bán thuốc40
+Hình 2-21 Biểu đồ hoạt động nhập thuốc vào kho41
+Hình 2-22 Biểu đồ hoạt động báo cáo hoạt động42
+Hình 2-23 Biểu đồ hoạt động báo cáo doanh thu43
+Hình 4-1 Mô hình MVC47
+Hình 4-2 Cơ sở dữ liệu tổng quan47
+Hình 4-3 Cơ sở dữ liệu cho nhóm chức năng “Quản lý tài khoản”48
+Hình 4-4 Sơ đồ quan hệ giữa các bảng thuốc, lô thuốc, nhóm thuốc49
+Hình 4-5 Sơ đồ package nguoidung53
+Hình 4-6 Sơ đồ package danhmuc53
+Hình 4-7 Sơ đồ package giaodich54
+Hình 4-8 Sơ đồ lớp chi tiết59
+Hình 4-9 Biểu đồ chuyển giao giữa các màn60
+Hình 4-10  Mock-up cho màn hình đăng nhập60
+Hình 4-11 Mock-up cho màn hình Admin61
+Hình 4-12 Mock-up cho màn hình Quản lý thuốc và tồn kho62
+Hình 4-13 Mock-up màn hình chính Dược sĩ63
+Hình 4-14 Mock-up màn hình chính báo cáo – thống kê64
+
+
+
+Danh sách bảng
+Bảng 1-1 Từ điển thuật ngữ ................................................................................................. 2
+Bảng 2-1 Đặc tả chức năng “Đăng nhập”.......................................................................... 21
+Bảng 2-2  Dữ liệu chức năng đăng nhập ........................................................................... 22
+Bảng 2-3 Đặc tả chức năng đăng ký .................................................................................. 23
+Bảng 2-4 Dữ liệu chức năng đăng ký ................................................................................ 23
+Bảng 2-5 Đặc tả chức năng “Quản lý tài khoản” .............................................................. 25
+Bảng 2-6 Dữ liệu chức năng quản lý tài khoản ................................................................. 25
+Bảng 2-7 Đặc tả chức năng quản lý trạng thái tài khoản ................................................... 26
+Bảng 2-8 Dữ liệu chức năng quản lý trạng thái tài khoản ................................................. 26
+Bảng 2-9 Đặc tả chức năng “Tra cứu tồn kho” ................................................................. 27
+Bảng 2-10 Dữ liệu chức năng tra cứu tồn kho .................................................................. 27
+Bảng 2-11 Đặc tả chức năng “Quản lý phiếu xuất” .......................................................... 30
+Bảng 2-12 Dữ liệu chức năng “Quản lý phiếu xuất” ......................................................... 30
+Bảng 2-13 Đặc tả chức năng “Quản lý phiếu nhập” ......................................................... 33
+Bảng 2-14 Dữ liệu chức năng  “Quản lý phiếu nhập” ....................................................... 33
+Bảng 2-15 Đặc tả chức năng “Quản lý thuốc” .................................................................. 34
+Bảng 2-16 Dữ liệu chức năng “Quản lý thuốc”................................................................. 35
+Bảng 2-17 Đặc tả chức năng “Báo cáo hoạt động” ........................................................... 36
+Bảng 2-18 Dữ liệu chức năng “Báo cáo hoạt động“ ......................................................... 36
+Bảng 2-19 Đặc tả chức năng “Thống kê thuốc bán chạy” ................................................ 37
+Bảng 2-20 Dữ liệu chức năng “Thống kê thuốc bán chạy” ............................................... 37
+Bảng 2-21 Đặc tả chức năng “Báo cáo doanh thu” ........................................................... 38
+Bảng 2-22 Dữ liệu chức năng “Báo cáo doanh thu” ......................................................... 39
+
+
+1 Giới thiệu
+1.1 Mục đích
+Mục đích của tài liệu đặc tả yêu cầu phần mềm này là cung cấp một cái nhìn tổng quan, dễ hiểu về các yêu cầu, thành phần của dự án.
+Tài liệu này được cung cấp như một tài liệu tham khảo cho sinh viên trực tiếp tham gia phát triển dự án phục vụ cho việc hoàn thành đồ án tốt nghiệp. Ngoài ra trong môi trường thực tế bên ngoài tài liệu này còn phục vụ cho những nhà phát triển phần mềm, kiểm thử viên, nhà quản lý dự án cũng như các bên liên quan.
+1.2 Phạm vi
+Tài liệu đặc tả yêu cầu phần mềm này được xây dựng nhằm phục vụ cho dự án Phát triển Hệ thống quản lý quầy thuốc, giải pháp công nghệ dành riêng cho các cơ sở bán lẻ thuốc.
+Với việc phát triển một nền tảng quản trị chuyên sâu, hệ thống cung cấp cho các dược sĩ và nhà quản lý quầy thuốc một công cụ hiện đại, song hành cùng các quy trình nghiệp vụ truyền thống. Hệ thống không chỉ mang lại lợi ích về kinh tế thông qua việc tối ưu hóa chi phí vận hành và nhân lực, mà còn đảm bảo độ chính xác tuyệt đối trong việc kiểm soát danh mục dược phẩm, quản lý tồn kho và quy trình xuất nhập kho. Qua đó, giải pháp này góp phần nâng cao chất lượng phục vụ khách hàng, đảm bảo tính an toàn trong cung ứng thuốc và đáp ứng đầy đủ các tiêu chuẩn về báo cáo, thống kê trong ngành dược.
+1.3 Từ điển thuật ngữ
+Software Requirements Specifications -
+SRS
+Đặc tả yêu cầu phần mềm
+Use Case
+Biểu đồ mô tả những yêu cầu của hệ thống
+Web server
+Phần mềm máy chủ cung cấp các chức
+
+năng, tài nguyên cho máy khách
+JavaScript
+Ngôn ngữ đánh dấu siêu văn bản
+Danh mục (Catalog)
+Tập hợp các dữ liệu đã được mã hóa để quản lý có tổ chức, tránh nhầm lẫn giữa các đối tượng
+như thuốc hoặc khách hàng
+Tồn kho (Inventory)
+Số lượng thuốc thực tế hiện đang có tại quầy thuốc tại một thời điểm xác định
+Lô thuốc (Batch)
+Một lượng thuốc nhất định được sản xuất trong một chu kỳ, có cùng ngày sản xuất và hạn sử dụng
+Hạn sử dụng (Expiry Date)
+Thời hạn cuối cùng mà thuốc được đảm bảo an toàn và hiệu quả để sử dụng
+Phiếu xuất thuốc (Export Voucher)
+Chứng từ ghi nhận việc bán hoặc phát thuốc dựa trên đơn thuốc hoặc yêu cầu bán lẻ
+Phiếu nhập thuốc (Import Voucher)
+Chứng từ ghi nhận việc nhập hàng từ nhà cung cấp vào kho của quầy thuốc
+Tồn kho tối thiểu
+Ngưỡng số lượng thuốc thấp nhất mà hệ thống cần đưa ra cảnh báo để quản lý thực hiện nhập hàng mới
+Bán lẻ (Retail)
+Hình thức bán thuốc trực tiếp cho bệnh nhân mà không nhất thiết phải có đơn thuốc lâu dài hoặc theo định kỳ
+
+Bảng 1-1 Từ điển thuật ngữ
+
+1.4 Tài liệu tham khảo
+IEEE Computer Society, IEEE Std 830-1998, IEEE Recommended Practice for Software Requirements Specifications, IEEE, 1998. [Truy cập lúc 09:00 ngày 1/02/2026].
+
+Sommerville, I., Software Engineering (10th Edition), Pearson Education, 2015. [Truy cập lúc 20:15 ngày 1/02/2026].
+1.5 Tổng quát
+1.5.1 Bối cảnh sản phẩm
+Hệ thống quản lý quầy thuốc là sản phẩm phần mềm được phát triển nhằm giải quyết các vấn đề trong việc quản lý thủ công tại các nhà thuốc bán lẻ. Hệ thống hoạt động như một giải pháp độc lập, hỗ trợ người dùng thực hiện các nghiệp vụ hằng ngày như nhập kho, xuất kho, quản lý hạn sử dụng và báo cáo doanh thu.
+
+1.5.2 Đặc điểm người sử dụng
+- Hệ thống được thiết kế để phục vụ 03 nhóm đối tượng người dùng chính với các đặc điểm và trình độ kỹ thuật như sau:
+Dược sĩ: Là nhân viên bán hàng trực tiếp. Họ có kiến thức chuyên môn về dược phẩm nhưng trình độ tin học ở mức cơ bản. Nhiệm vụ chính trên hệ thống là tra cứu thuốc, kiểm tra giá và lập phiếu xuất thuốc cho khách hàng.
+Quản lý: Là người chịu trách nhiệm giám sát hoạt động kinh doanh. Họ cần có cái nhìn tổng quan về kho hàng và doanh số. Nhiệm vụ chính là theo dõi tồn kho, duyệt phiếu nhập/xuất và xem các báo cáo thống kê.
+Admin: Là người có trình độ kỹ thuật cao. Nhiệm vụ là quản trị người dùng, phân quyền truy cập và đảm bảo hệ thống vận hành ổn định.
+
+
+2 Các yêu cầu chức năng
+2.1 Các tác nhân
+Hệ thống bao gồm 03 tác nhân chính với các vai trò cụ thể:
+Dược sĩ: Là người trực tiếp thực hiện bán và phát thuốc cho bệnh nhân , tra cứu thông tin thuốc về giá bán, số lượng và thực hiện lập phiếu xuất thuốc.
+Quản lý quầy thuốc: Chịu trách nhiệm theo dõi tình trạng tồn kho , thực hiện phê duyệt các lệnh nhập – xuất thuốc và theo dõi các báo cáo hệ thống.
+Admin hệ thống: Có vai trò quản trị các tài khoản người dùng , thực hiện phân quyền truy cập và thiết lập cấu hình cho hệ thống.
+2.2 Các chức năng hệ thống
+Hệ thống được chia thành các nhóm chức năng nghiệp vụ sau:
+Quản lý danh mục thuốc:
+Cho phép thêm, sửa hoặc xóa thuốc khỏi danh mục.
+Quản lý chi tiết các thông tin: mã thuốc, tên thuốc, nhóm thuốc, đơn vị tính, hạn sử dụng và giá bán.
+Quản lý nhập thuốc:
+Thực hiện lập phiếu nhập thuốc với đầy đủ thông tin về nhà cung cấp, ngày nhập, số lượng và lô thuốc.
+Hệ thống tự động cập nhật số lượng tồn kho ngay sau khi nhập.
+Quản lý xuất thuốc:
+Dược sĩ lập phiếu xuất dựa trên đơn thuốc hoặc bán lẻ trực tiếp.
+Hệ thống tự động trừ tồn kho và kiểm tra tình trạng thuốc hết hạn hoặc sắp hết.
+Quản lý tồn kho:
+Giám sát số lượng hiện có và đưa ra cảnh báo khi thuốc sắp hết hàng hoặc sắp hết hạn sử dụng.
+Hỗ trợ tra cứu tồn kho nhanh theo tên hoặc nhóm thuốc.
+Báo cáo – Thống kê:
+Cung cấp báo cáo chi tiết về tình hình nhập kho, xuất kho và tồn kho.
+Thống kê danh sách các loại thuốc bán chạy nhất.
+Quản lý người dùng:
+Thực hiện tạo tài khoản mới và phân quyền chi tiết cho Admin, Quản lý và Dược sĩ.
+Cho phép khóa hoặc mở lại tài khoản người dùng khi cần thiết.
+2.3 Biểu đồ use case tổng quan
+
+Hình 2-1 Sơ đồ Use Case tổng quan hệ thống
+
+
+
+
+
+
+2.4 Biều đồ use case phân rã
+2.4.1 Phân rã use case “Admin”
+ Hình 2-2 Sơ đồ phân rã Use case “Admin”
+
+2.4.2 Phân rã use case “Quản lý”
+ Hình 2-3 Sơ đồ phân rã Use case “Quản lý”
+2.4.3 Phân rã Use Case “Dược sĩ”
+
+
+Hình 2-4 Sơ đồ phân rã Use case “Dược sĩ”
+2.5 Sơ đồ tuần tự
+2.5.1 Đăng nhập
+
+
+Hình 2-5 Sơ đồ tuần tự đăng nhập
+
+2.5.2 Đăng ký
+
+
+Hình 2-6 Sơ đồ tuần tự đăng ký
+
+
+2.5.3 Quản lý tài khoản
+1. Xem chi tiết
+
+ Hình 2-7 Sơ đồ tuần tự xem chi tiết tài khoản
+
+2. Sửa tài khoản
+
+
+Hình 2-8 Sơ đồ tuần tự sửa tài khoản
+
+3. Xóa tài khoản
+
+
+Hình 2-9 Sơ tuần tuần tự xóa tài khoản
+4. Phân quyên tài khoản
+
+
+Hình 2-10 Sơ đồ tuần tự phân quyền tài khoản
+2.5.4 Quản lý trạng thái tài khoản
+
+Hình 2-11 Sơ đồ tuần tự quản lý trạng thái tài khoản
+2.5.5 Tra cứu tồn kho
+
+Hình 2-12 Sơ đồ tuần tự tra cứu tồn kho
+
+2.5.6 Quản lý phiếu xuất
+- Xem (Read)
+
+Hình 2-13 Sơ đồ tuần tự xem chi tiết phiếu xuất
+- Tạo (Create)
+
+Hình 2-14 Sơ đồ tuần tự tạo phiếu xuất
+- Cập nhật (Update)
+
+Hình 2-15 Sơ đồ tuần tự cập nhât phiếu xuất
+- Xóa (Delete)
+
+
+Hình 2-16 Sơ đồ tuần tự xóa phiếu xuất
+
+2.5.7 Báo cáo hoạt động
+
+Hình 2-17 Sơ đồ tuần tự báo cáo hoạt động
+
+
+2.5.8 Thống kê thuốc bán chạy
+
+Hình 2-18 Sơ đồ tuần tự thống kê thuốc bán chạy
+2.5.9 Báo cáo doanh thu
+
+Hình 2-19 Sơ đồ tuần tự báo cáo doanh thu
+
+2.6 Đặc tả use case
+2.6.1 Đăng nhập
+Mã Use case
+UC001
+Tên Use case
+Đăng nhập
+Tác nhân
+Admin, Quản lý, Dược sĩ
+Mô tả
+Tác nhân đăng nhập vào hệ thống để sử dụng các chức năng hệ thống
+Sự kiện kích hoạt
+Click vào nút đăng nhập trên giao diện website
+Tiền điều kiện
+Tác nhân đã có tài khoản trên hệ thống
+Luồng sự kiện chính
+(Thành công)
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+
+
+1.
+Người dùng
+Chọn chức năng Đăng nhập
+
+
+
+2.
+Hệ thống
+Hiển thị giao diện đăng nhập
+
+
+
+3.
+Người dùng
+Nhập tài khoản và mật khẩu (mô tả phía dưới *)
+
+
+
+4.
+Người dùng
+Yêu cầu đăng nhập
+
+
+
+5.
+Hệ thống
+Kiểm tra xem người đã nhập các trường bắt buộc nhập hay chưa
+
+
+
+6.
+Hệ thống
+Kiểm tra tài khoản và mật khẩu có hợp lệ do khách nhập trong hệ thống hay không
+
+
+
+7.
+Hệ thống
+Hiển thị chức năng tương ứng đối với Người dùng
+
+Luồng sự kiện thay thế
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+
+
+6a.
+Hệ thống
+Thông báo lỗi: Cần nhập các trường bắt buộc nhập nếu khách nhập thiếu
+
+
+
+7a.
+Hệ thống
+Thông báo lỗi: tài khoản hoặc mật khẩu chưa đúng nếu không tìm thấy tài khoản và mật khẩu trong hệ thống
+
+Hậu điều kiện
+Tác nhân đăng nhập được vào hệ thống
+
+Bảng 2-1 Đặc tả chức năng “Đăng nhập”
+
+
+
+
+
+* Dữ liệu đầu vào gồm các trường dữ liệu sau:
+STT
+Trường dữ liệu
+Mô tả
+Bắt buộc?
+Điều kiện hợp lệ
+Ví dụ
+1.
+Tài khoản
+Input account
+field
+Có
+Tối thiểu 8 ký tự
+hiennguyen
+2.
+Mật khẩu
+Pasword field
+Có
+Tối thiểu 6 kí tự
+Password
+Bảng 2-2  Dữ liệu chức năng đăng nhập
+2.6.2 Đăng ký
+Mã Use case
+UC002
+Tên Use case
+Đăng ký
+Tác nhân
+Admin
+Mô tả
+Tác nhân tạo tài khoản mới và thiết lập quyền hạn tương ứng cho tài khoản đó để truy cập hệ thống.
+Sự kiện kích hoạt
+Click vào nút "Đăng ký" trong giao diện Admin.
+Tiền điều kiện
+Tác nhân đăng nhập thành công vào hệ thống
+Luồng sự kiện chính
+(Thành công)
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+1.
+Admin
+Chọn menu “Đăng Ký”
+
+
+
+2.
+Hệ thống
+Hiển thị form đăng ký gồm: Tên đăng nhập, Mật khẩu, Họ tên nhân viên, và Danh sách quyền hạn.
+
+
+
+3.
+Admin
+Nhập đầy đủ thông tin cá nhân và tài khoản.
+
+
+
+4.
+Người dùng
+Thực hiện phân quyền: Chọn vai trò tương ứng trong danh sách.
+
+
+
+5.
+Admin
+Nhấn nút  "Tạo tài khoản".
+
+
+
+6.
+Hệ thống
+Kiểm tra tính hợp lệ các thông tin đã nhập.
+
+
+
+7.
+Hệ thống
+
+Lưu thông tin tài khoản và thông báo tạo tài khoản thành công.
+
+Luồng sự kiện thay thế
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+6a.
+Hệ thống
+Thông báo lỗi: Cần nhập các trường bắt buộc nhập nếu khách nhập thiếu
+
+
+Hậu điều kiện
+Tài khoản được tạo và lưu trữ vào hệ thống
+Bảng 2-3 Đặc tả chức năng đăng ký
+* Dữ liệu đầu vào gồm các trường dữ liệu sau:
+STT
+Trường dữ liệu
+Mô tả
+Bắt buộc?
+Điều kiện hợp lệ
+Ví dụ
+1.
+Tài khoản
+Input acccount
+field
+Có
+Tối thiểu 8 ký tự
+hiennguyen
+2.
+Mật khẩu
+Pasword field
+Có
+Ít nhất 6 ký tự
+Hien@12
+3.
+Xác nhận mật khẩu
+Pasword field
+Có
+Trùng với Mật khẩu
+Hien@12
+4.
+Họ tên nhân viên
+Full name field
+Có
+NULL
+Nguyễn Văn Nam
+Bảng 2-4 Dữ liệu chức năng đăng ký
+2.6.3 Quản lý tài khoản
+Mã Use case
+UC003
+Tên Use case
+Quản lý tài khoản
+Tác nhân
+Admin
+Mô tả
+Thực hiện các tác vụ như thêm, sửa, xóa, tìm kiếm tài khoản, phân quyền.
+Sự kiện kích hoạt
+Sau khi hiển thị danh sách tài khoản. Click các nút “Thêm mới”, “Xóa”, “Danh sách tài khoản”, “Chi tiết”, “Sửa”, “Phân quyền” tương ứng với các sự kiện thêm mới, xóa, xem danh sách, xem chi tiết, thay đổi thông tin/quyền hạn tài khoản.
+Tiền điều kiện
+Đăng nhập thành công
+ Xem (R-Read)
+Luồng sự kiện chính
+STT
+Thực hiện bởi
+Hành động
+
+1.
+Hệ thống
+Hiển thị danh sách tài khoản
+
+2.
+Admin
+Yêu cầu xem chi tiết tài khoản
+
+3.
+Hệ thống
+Hiển thị chi tiết thông tin tài khoản
+Luồng sự kiện thay thế
+1a.
+Hệ thống
+Thông báo nếu không có ít nhất một giảng viên nào
+
+
+
+ Cập nhật(U – Update)
+Luồng sự kiện chính
+STT
+Thực hiện bởi
+Hành động
+
+1.
+Hệ thống
+Hiển thị danh sách tài khoản
+
+2.
+Admin
+Chọn xem chi tiết tài khoản và yêu cầu sửa
+
+3.
+Hệ thống
+Hiển thị chi tiết thông tin tài khoản
+
+4.
+Admin
+Chỉnh sửa thông tin tài khoản
+
+5.
+Hệ thống
+Kiểm tra dữ liệu nhập
+
+6.
+Hệ thống
+Cập nhật các thông tin cần chỉnh sửa và thông báo chỉnh sửa thành công.
+Luồng sự kiện thay thế
+5a.
+Hệ thống
+Thông báo lỗi nếu các trường nhập ko đúng định dạng
+
+6a.
+Hệ thống
+Thông báo lỗi nếu cập nhật không thành công
+
+     Xóa(D - Delete)
+Luồng sự kiện chính
+STT
+Thực hiện bởi
+Hành động
+
+1.
+Hệ thống
+Hiển thị danh sách tài khoản
+
+2.
+Admin
+Chọn tài khoản cần xóa.
+
+3.
+Hệ thống
+Hiển thị thông báo xác nhận xóa tài khoản.
+
+4.
+Admin
+Xác nhận xóa tài khoản
+
+5.
+Hệ thống
+Xóa và thông báo xóa thành công
+Luồng sự kiện thay thế
+5a.
+Hệ thống
+Thông báo lỗi nếu xóa không thành công
+
+ Phân quyền
+Luồng sự kiện chính
+
+
+
+Luồng sự kiện thay thế
+
+
+STT
+Thực hiện bởi
+Hành động
+1.
+Hệ thống
+Hiển thị danh sách tài khoản
+2.
+Admin
+Chọn tài khoản cần xóa.
+3.
+Hệ thống
+Hiển thị chi tiết các quyền có thể phân
+4.
+Admin
+Chọn quyền cần phân cho tài khoản và xác nhận.
+5.
+Hệ thống
+Thực hiện phân quyền và thông báo.
+5a.
+Hệ thống
+Thông báo lỗi nếu phân quyền không thành công
+
+Hậu điều kiện
+Thông tin tài khoản được cập nhật / xóa thành công. Quyền của tài khoản được cập nhật chính xác trong CSDL
+
+Bảng 2-5 Đặc tả chức năng “Quản lý tài khoản”
+
+* Dữ liệu đầu vào gồm các trường dữ liệu sau:
+STT
+Trường dữ liệu
+Mô tả
+Bắt buộc?
+Điều kiện hợp lệ
+Ví dụ
+1.
+Tài khoản
+Tên đăng nhập của tài khoản cần thao tác
+Có
+Tối thiểu 8 ký tự
+ql_hiennguyen
+2.
+Họ tên nhân viên
+Họ và tên người dùng
+Có
+Không rỗng, tối đa 255 ký tự
+Nguyễn Đình Hiến
+3.
+Mật khẩu mới
+Mật khẩu khi chỉnh sửa tài khoản
+Không
+Ít nhất 6 ký tự; có chữ và số/ký tự đặc biệt
+hiennguyen@123
+4.
+Xác nhận mật khẩu
+Xác nhận lại mật khẩu mới
+Nếu nhập
+Trùng khớp với “Mật khẩu mới”
+hiennguyen@123
+5.
+Vai trò/ Quyền
+Quyền hệ thống (Admin/Quản
+lý/Dược sĩ)
+Có
+Chọn từ danh mục quyền hợp lệ
+Quản lý
+6.
+Trạng thái tài khoản
+Trạng thái hiện tại (Hoạt động/Khóa)
+Không
+Chọn từ danh sách trạng thái cho phép
+Hoạt động
+7.
+Từ khóa tìm kiếm
+Chuỗi tìm kiếm trong danh sách tài khoản
+Không
+Có thể là tên/ tài khoản/email
+khanh
+
+Bảng 2-6 Dữ liệu chức năng quản lý tài khoản
+
+2.6.4 Quản lý trạng thái tài khoản
+Mã Use case
+UC004
+Tên Use case
+Quản lý trạng thái tài khoản
+Tác nhân
+Admin
+Mô tả
+Thực hiện thay đổi trạng thái hoạt động của tài khoản người dùng (Dược sĩ, Quản lý) để kiểm soát quyền truy cập vào hệ thống. Bao gồm hai hành động chính:
+Khóa tài khoản và Mở khóa tài khoản.
+Sự kiện kích hoạt
+Click vào biểu tượng/nút "Khóa" (Lock) hoặc "Mở khóa" (Unlock) trên giao diện danh sách tài khoản.
+Tiền điều kiện
+Admin đã đăng nhập thành công và đang ở giao diện xem danh sách tài khoản.
+Luồng sự kiện chính
+(Thành công)
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+1.
+Admin
+Chọn menu “Quản lý trạng thái tài khoản”
+
+
+
+2.
+Hệ thống
+Hiển thị danh sách tài khoản và trạng thái.
+
+
+
+3.
+Admin
+Thay đổi trạng thái tài khoản trên giao diện và xác nhận
+
+
+
+4.
+Hệ thống
+Thay đổi trạng thái và hiển thị thông báo thành công,
+
+Luồng sự kiện thay thế
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+4a.
+Hệ thống
+Thông báo lỗi: Thay đổi trạng thái không thành công
+
+Hậu điều kiện
+Tài khoản được cập nhật trạng thái vào hệ thống.
+Bảng 2-7 Đặc tả chức năng quản lý trạng thái tài khoản
+
+* Dữ liệu đầu vào gồm các trường dữ liệu sau:
+STT
+Trường dữ liệu
+Mô tả
+Bắt buộc?
+Điều kiện hợp lệ
+Ví dụ
+1.
+Tài khoản
+Tài khoản cần thay đổi trạng thái
+Có
+Tồn tại trong CSDL tài khoản
+ql_hiennguyen
+2.
+Trạng thái mới
+Trạng thái cần thiết lập
+Có
+Chọn : Hoạt động / Khóa
+Khóa
+3.
+Lý do thay đổi trạng thái
+Nội dung giải thích việc khóa/ mở khóa tài khoản
+Không
+Tối đa 500 ký tự
+Bạn đã nghỉ việc
+4.
+Người thực hiện
+Admin thực hiện thao tác
+Có
+Tồn tại trong CSDL người dùng có quyền Admin
+admin
+5.
+Thời điểm thực hiện
+Thời gian ghi nhận thao tác
+Có
+Định dạng DD/MM/YYYY
+HH:MM
+24/02/2026 09:15
+Bảng 2-8 Dữ liệu chức năng quản lý trạng thái tài khoản
+
+
+2.6.5 Tra cứu tồn kho
+Mã Use case
+UC005
+Tên Use case
+Tra cứu tồn kho
+Tác nhân
+Dược sĩ, Quản lý
+Mô tả
+Cho phép tác nhân tra cứu thông tin tồn kho thuốc trong hệ thống nhằm phục vụ hoạt động bán lẻ và quản lý xuất kho. Tác nhân có thể xem danh sách thuốc, tìm kiếm, xem chi tiết thông tin thuốc và kiểm tra số lượng tồn kho hiện tại.
+Sự kiện kích hoạt
+Click vào biểu tượng kho hàng.
+Tiền điều kiện
+Tác nhân đã đăng nhập thành công.
+Luồng sự kiện chính
+(Thành công)
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+1.
+Admin
+Chọn menu “Tra cứu tồn kho”
+
+
+
+2.
+Hệ thống
+Hiển thị danh sách thuốc, số lượng.
+
+
+
+3.
+Admin
+Yêu cầu xem chi tiết thuốc.
+
+
+
+4.
+Hệ thống
+Hiển thị thông tin chi tiết thuốc .
+
+Luồng sự kiện thay thế
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+2a.
+Hệ thống
+Thông báo nếu không có một loại thuốc nào.
+
+Hậu điều kiện
+Hiển thị thông tin thuốc cần tìm trong kho.
+Bảng 2-9 Đặc tả chức năng “Tra cứu tồn kho”
+* Dữ liệu đầu vào gồm các trường dữ liệu sau:
+STT
+Trường dữ liệu
+Mô tả
+Bắt buộc?
+Điều kiện hợp lệ
+Ví dụ
+1.
+Từ khóa tìm kiếm
+Chuỗi tìm kiếm theo mã/tên thuốc
+Không
+Tối đa 255 ký tự
+Paracetamol
+2.
+Nhóm thuốc
+Lọc theo nhóm dược phẩm
+Không
+Chọn từ Danh mục nhóm thuốc
+Thuốc giảm đau
+3.
+Trạng thái tồn kho
+Lọc theo tình trạng tồn (Còn/Sắp hết/Hết)
+Không
+Chọn từ danh sách trạng thái hệ thống
+Sắp hết
+4.
+Ngưỡng tồn tối thiểu
+Giá trị dùng để cảnh báo thuốc sắp hết
+Không
+Số nguyên dương (>0)
+10
+Bảng 2-10 Dữ liệu chức năng tra cứu tồn kho
+
+2.6.6 Quản lý phiếu xuất
+Mã Use case
+UC006
+Tên Use case
+Quản lý phiếu xuất
+Tác nhân
+Dược sĩ, Quản lý
+Mô tả
+Thực hiện các tác vụ bán hàng và quản lý đầu ra của kho: lập phiếu xuất bán lẻ hoặc theo đơn, xem lịch sử bán hàng, điều chỉnh hoặc hủy phiếu xuất khi có sai sót/trả hàng.
+Sự kiện kích hoạt
+Click menu "Quản lý phiếu xuất". Click các nút "Tạo phiếu", "Sửa", "Xóa/Hủy", "Chi tiết" trên giao diện danh sách.
+Tiền điều kiện
+Tác nhân đã đăng nhập
+ Xem (R-Read)
+Luồng sự kiện chính
+STT
+Thực hiện bởi
+Hành động
+
+1.
+Hệ thống
+Hiển thị danh sách phiếu xuất
+
+2.
+Tác nhân
+Yêu cầu xem chi tiết phiếu xuất
+
+3.
+Hệ thống
+Hiển thị chi tiết thông tin phiếu xuất
+Luồng sự kiện thay thế
+1a.
+Hệ thống
+Thông báo nếu không có phiếu xuất nào.
+
+
+
+ Cập nhật(U – Update)
+Luồng sự kiện chính
+STT
+Thực hiện bởi
+Hành động
+
+1.
+Hệ thống
+Hiển thị danh sách phiếu xuất
+
+2.
+Tác nhân
+Chọn xem chi tiết phiếu xuất
+
+3.
+Hệ thống
+Hiển thị chi tiết thông tin phiếu xuất
+
+4.
+Tác nhân
+Chỉnh sửa thông tin phiếu xuất và xác nhận.
+
+5.
+Hệ thống
+Kiểm tra dữ liệu phiếu xuất.
+
+6.
+Hệ thống
+Cập nhật các thông tin cần chỉnh sửa vào hệ thống và thông báo chỉnh sửa thành công.
+Luồng sự kiện thay thế
+5a.
+Hệ thống
+Thông báo lỗi nếu các trường nhập ko đúng định dạng
+
+6a.
+Hệ thống
+Thông báo lỗi nếu cập nhật không thành công
+
+     Tạo (C - Create)
+Luồng sự kiện chính
+STT
+Thực hiện bởi
+Hành động
+
+1.
+Tác nhân
+Yêu cầu chức năng thêm phiếu xuất.
+
+2.
+Hệ thống
+Hiển thị giao diện điền thông tin phiếu.
+
+3.
+Tác nhân
+Nhập đầy đủ các thông tin phiếu xuất.
+
+4.
+Hệ thống
+Kiểm tra các trường dữ liệu nhập .
+
+5.
+Hệ thống
+Thêm mới phiếu xuất.
+Luồng sự kiện thay thế
+4a.
+Hệ thống
+Thông báo lỗi nếu các trường nhập ko đúng định dạng
+
+5a.
+Hệ thống
+Thông báo mới nếu thêm mới không thành công.
+
+     Xóa(D – Delete)
+Luồng sự kiện chính
+STT
+Thực hiện bởi
+Hành động
+
+1.
+Hệ thống
+Hiển thị danh sách phiếu xuất
+
+2.
+Tác nhân
+Chọn phiếu cần xóa.
+
+3.
+Hệ thống
+Hiển thị thông báo xác nhận xóa phiếu xuất.
+
+4.
+Tác nhân
+Xác nhận xóa phiếu
+
+5.
+Hệ thống
+Xóa và thông báo xóa thành công
+Luồng sự kiện thay thế
+5a.
+Hệ thống
+Thông báo lỗi nếu xóa không thành công
+
+Hậu điều kiện
+Thông tin phiếu xuất được cập nhật vào vào hệ thống. Số lượng tồn kho được cập nhật tương ứng.
+Bảng 2-11 Đặc tả chức năng “Quản lý phiếu xuất”
+* Dữ liệu đầu vào gồm các trường dữ liệu sau:
+STT
+Trường dữ liệu
+Mô tả
+Bắt buộc?
+Điều kiện hợp lệ
+Ví dụ
+1
+Người bán
+Người bán thuốc
+Có
+Chọn từ danh mục hoặc nhập mới
+Nguyễn Văn Bình
+2
+Ngày bán
+Thời điểm nhập hàng vào kho
+Có
+Không được sau ngày hiện tại
+24/05/2024
+3
+Mã/Tên thuốc
+Thông tin nhận diện dược phẩm
+Có
+Phải tồn tại trong danh mục thuốc
+Paracetamol 500mg
+4
+Số lượng
+Số lượng thuốc
+Có
+Phải là số nguyên dương
+10
+Bảng 2-12 Dữ liệu chức năng “Quản lý phiếu xuất”
+
+2.6.7 Quản lý phiếu nhập
+Mã Use case
+UC007
+Tên Use case
+Quản lý phiếu nhập
+Tác nhân
+Quản lý
+Mô tả
+Cho phép người dùng ghi nhận thông tin thuốc nhập từ nhà cung cấp vào hệ thống và tự động cập nhật số lượng tồn kho
+Sự kiện kích hoạt
+Click menu "Quản lý phiếu nhập". Click các nút "Tạo phiếu", "Sửa", "Xóa/Hủy", "Chi tiết" trên giao diện danh sách.
+Tiền điều kiện
+Tác nhân đã đăng nhập
+ Xem (R-Read)
+Luồng sự kiện chính
+STT
+Thực hiện bởi
+Hành động
+
+1.
+Hệ thống
+Hiển thị danh sách phiếu nhập
+
+2.
+Tác nhân
+Yêu cầu xem chi tiết phiếu nhập
+
+3.
+Hệ thống
+Hiển thị chi tiết thông tin phiếu nhập
+Luồng sự kiện thay thế
+1a.
+Hệ thống
+Thông báo nếu không có phiếu nhập nào.
+
+
+
+ Cập nhật(U – Update)
+Luồng sự kiện chính
+STT
+Thực hiện bởi
+Hành động
+
+1.
+Hệ thống
+Hiển thị danh sách phiếu nhập
+
+2.
+Tác nhân
+Chọn xem chi tiết phiếu nhập
+
+3.
+Hệ thống
+Hiển thị chi tiết thông tin phiếu nhập
+
+4.
+Tác nhân
+Chỉnh sửa thông tin phiếu nhập và xác nhận.
+
+5.
+Hệ thống
+Kiểm tra dữ liệu phiếu nhập.
+
+6.
+Hệ thống
+Cập nhật các thông tin cần chỉnh sửa vào hệ thống và thông báo chỉnh sửa thành công.
+Luồng sự kiện thay thế
+5a.
+Hệ thống
+Thông báo lỗi nếu các trường nhập ko đúng định dạng
+
+6a.
+Hệ thống
+Thông báo lỗi nếu cập nhật không thành công
+
+     Tạo (C - Create)
+Luồng sự kiện chính
+STT
+Thực hiện bởi
+Hành động
+
+1.
+Tác nhân
+Yêu cầu chức năng thêm phiếu nhập.
+
+2.
+Hệ thống
+Hiển thị giao diện điền thông tin phiếu.
+
+3.
+Tác nhân
+Nhập đầy đủ các thông tin phiếu nhập.
+
+4.
+Hệ thống
+Kiểm tra các trường dữ liệu nhập .
+
+5.
+Hệ thống
+Thêm mới phiếu nhập.
+Luồng sự kiện thay thế
+4a.
+Hệ thống
+Thông báo lỗi nếu các trường nhập ko đúng định dạng
+
+5a.
+Hệ thống
+Thông báo mới nếu thêm mới không thành công.
+
+     Xóa(D – Delete)
+Luồng sự kiện chính
+STT
+Thực hiện bởi
+Hành động
+
+1.
+Hệ thống
+Hiển thị danh sách phiếu nhập
+
+2.
+Tác nhân
+Chọn phiếu cần xóa.
+
+3.
+Hệ thống
+Hiển thị thông báo xác nhận xóa phiếu nhập.
+
+4.
+Tác nhân
+Xác nhận xóa phiếu
+
+5.
+Hệ thống
+Xóa và thông báo xóa thành công
+Luồng sự kiện thay thế
+5a.
+Hệ thống
+Thông báo lỗi nếu xóa không thành công
+
+Hậu điều kiện
+Thông tin phiếu nhập được cập nhật vào vào hệ thống. Số lượng tồn kho được cập nhật tương ứng.
+Bảng 2-13 Đặc tả chức năng “Quản lý phiếu nhập”
+
+
+* Dữ liệu đầu vào gồm các trường dữ liệu sau:
+STT
+Trường dữ liệu
+Mô tả
+Bắt buộc?
+Điều kiện hợp lệ
+Ví dụ
+1
+Nhà cung cấp
+Tên đơn vị cung cấp thuốc
+Có
+Chọn từ danh mục hoặc nhập mới
+Công ty Dược TW1
+2
+Ngày nhập
+Thời điểm nhập hàng vào kho
+Có
+Không được sau ngày hiện tại
+24/05/2024
+3
+Mã/Tên thuốc
+Thông tin nhận diện dược phẩm
+Có
+Phải tồn tại trong danh mục thuốc
+Paracetamol 500mg
+4
+Số lượng
+Lượng thuốc nhập thực tế
+Có
+Phải là số nguyên dương
+500
+5
+Lô thuốc
+Mã định danh của đợt sản xuất
+Có
+Theo quy tắc của nhà sản xuất
+LOT2024-A1
+6
+Hạn sử dụng
+Thời hạn an toàn của thuốc
+Có
+Phải sau ngày nhập hàng
+31/12/2026
+Bảng 2-14 Dữ liệu chức năng  “Quản lý phiếu nhập”
+
+2.6.8 Quản lý thuốc
+Mã Use case
+UC008
+Tên Use case
+Đăng nhập
+Tác nhân
+Quản lý
+Mô tả
+Cho phép người dùng cập nhật thông tin về các loại thuốc trong danh mục bán lẻ của nhà thuốc.
+Sự kiện kích hoạt
+Người dùng click vào mục "Quản lý danh mục thuốc" trên thanh menu chức năng.
+Tiền điều kiện
+Người dùng đã đăng nhập thành công vào hệ thống với quyền hạn tương ứng.
+Luồng sự kiện chính
+(Thành công)
+
+STT
+Thực hiện bởi
+Hành động
+
+
+1.
+Người dùng
+Chọn chức năng "Thêm thuốc mới" từ giao diện danh sách thuốc.
+
+
+2.
+Hệ thống
+Hiển thị form nhập liệu thông tin thuốc mới.
+
+
+3.
+Người dùng
+Nhập các thông tin: Mã thuốc, Tên thuốc, Nhóm thuốc, Đơn vị tính, Hạn sử dụng, Giá bán.
+
+
+4.
+Người dùng
+Nhấn nút "Lưu" để xác nhận tạo mới.
+
+
+5.
+Hệ thống
+Kiểm tra tính hợp lệ: Mã thuốc không được trùng, các trường bắt buộc không để trống.
+
+
+6.
+Hệ thống
+Lưu thông tin vào CSDL và hiển thị thông báo thành công.
+Luồng sự kiện thay
+thế
+
+STT
+Thực hiện bởi
+Hành động
+
+
+5a.
+Hệ thống
+Thông báo lỗi: Nếu Mã thuốc đã tồn tại hoặc dữ liệu nhập không đúng định dạng (ví dụ: giá bán < 0).
+
+
+5b.
+Hệ thống
+Thông báo lỗi: Nếu người dùng chưa nhập các trường bắt buộc.
+Hậu điều kiện
+Thông tin thuốc mới được cập nhật vào danh mục và hiển thị trong danh sách.
+Bảng 2-15 Đặc tả chức năng “Quản lý thuốc”
+* Dữ liệu đầu vào gồm các trường dữ liệu sau:
+STT
+Trường dữ liệu
+Mô tả
+Bắt buộc?
+Điều kiện hợp lệ
+Ví dụ
+1
+Mã thuốc
+ID duy nhất của thuốc
+Có
+Chuỗi ký tự, không trùng lặp
+P_AMOX_500
+2
+Tên thuốc
+Tên thương mại dược phẩm
+Có
+Tối đa 255 ký tự
+Amoxicillin 500mg
+3
+Nhóm thuốc
+Phân loại thuốc
+Có
+Chọn từ danh mục nhóm thuốc
+Thuốc kháng sinh
+4
+Đơn vị tính
+Cách tính định lượng
+Có
+Chọn từ danh sách (Viên, Vỉ,
+Hộp)
+Viên
+5
+Giá bán
+Đơn giá bán lẻ hiện hành
+Có
+Số nguyên dương (> 0)
+5.000
+6
+Hạn sử dụng
+Ngày hết hạn của thuốc
+Không
+Định dạng ngày tháng hợp lệ
+31/12/2026
+Bảng 2-16 Dữ liệu chức năng “Quản lý thuốc”
+2.6.9 Báo cáo hoạt động
+
+Mã Use case
+UC009
+Tên Use case
+Báo cáo hoạt động
+Tác nhân
+Quản lý
+Mô tả
+Hệ thống tổng hợp và hiển thị toàn bộ lịch sử các giao dịch nhập kho và xuất kho (bán lẻ/theo đơn) đã phát sinh trong một khoảng thời gian xác định,.
+Sự kiện kích hoạt
+Người dùng thực hiện thao tác click vào chức năng "Báo cáo hoạt động" trên menu Báo cáo - Thống kê của hệ thống.
+Tiền điều kiện
+Quản lý đã đăng nhập thành công vào hệ thống.
+Luồng sự kiện chính
+(Thành công)
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+
+
+
+
+1.
+Quản lý
+Chọn khoảng thời gian cần báo cáo (Từ ngày... Đến ngày...).
+
+
+
+2.
+Quản lý
+Lựa chọn loại hình hoạt động cần lọc (Nhập kho, Xuất kho hoặc Tất cả).
+
+
+
+3.
+Hệ thống
+Truy xuất dữ liệu từ bảng Phiếu nhập và Phiếu xuất dựa trên điều kiện thời gian đã chọn,.
+
+
+
+4.
+Hệ thống
+Tính toán tổng số lượng mặt hàng và tổng giá trị giao dịch của kỳ báo cáo.
+
+
+
+5.
+Hệ thống
+Hiển thị danh sách chi tiết (Mã phiếu, Ngày giao dịch, Tên thuốc, Số lượng, Đơn giá, Thành tiền) lên màn hình,.
+
+
+
+6.
+Quản lý
+Yêu cầu kết xuất báo cáo ra định dạng trang in (PDF) hoặc tệp tin Excel để lưu trữ.
+
+
+
+7.
+Hệ thống
+Xuất file PDF hoặc Excel
+
+Luồng sự kiện thay thế
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+
+
+
+1a
+Hệ thống
+Thông báo lỗi: Nếu ngày kết thúc nhỏ hơn ngày bắt đầu, hệ thống yêu cầu người dùng nhập lại mốc thời gian hợp lệ.
+
+
+
+3a
+Hệ thống
+Thông báo: Nếu không tìm thấy dữ liệu giao dịch trong khoảng thời gian đã chọn, hệ thống hiển thị thông báo "Không có dữ liệu",.
+
+Hậu điều kiện
+Thông tin báo cáo được hiển thị và sẵn sàng để in ấn hoặc xuất tệp; trạng thái hệ thống không thay đổi.
+
+Bảng 2-17 Đặc tả chức năng “Báo cáo hoạt động”
+* Dữ liệu đầu vào gồm các trường dữ liệu sau:
+STT
+Trường dữ liệu
+Mô tả
+Bắt buộc?
+Điều kiện hợp lệ
+Ví dụ
+1
+Từ ngày
+Ngày bắt đầu kỳ báo cáo
+Có
+Định dạng DD/MM/YYYY; không được lớn hơn ngày hiện tại.
+01/05/2024
+2
+Đến ngày
+Ngày kết thúc kỳ báo cáo
+Có
+Phải lớn hơn hoặc bằng "Từ ngày".
+24/05/2024
+3
+Loại hoạt động
+Tiêu chí lọc giao dịch
+Có
+Lựa chọn: Nhập kho / Xuất kho / Tất cả.
+Nhập kho
+4
+Mã thuốc
+Lọc hoạt động theo từng loại thuốc cụ thể
+Không
+Phải tồn tại trong Danh mục thuốc.
+PA001
+5
+Nhóm thuốc
+Lọc hoạt động theo nhóm dược phẩm
+Không
+Chọn từ Danh mục nhóm thuốc.
+Kháng sinh
+Bảng 2-18 Dữ liệu chức năng “Báo cáo hoạt động“
+
+
+
+2.6.10 Thống kê thuốc bán chạy
+Mã Use case
+UC010
+Tên Use case
+Thống kê thuốc bán chạy
+Tác nhân
+Quản lý
+Mô tả
+Hệ thống thực hiện tổng hợp, phân tích và xếp hạng các loại thuốc dựa trên số lượng thực tế đã bán ra trong một khoảng thời gian xác định.
+Sự kiện kích hoạt
+Người dùng click vào chức năng "Thống kê thuốc bán chạy" trên menu Báo cáo – Thống kê.
+Tiền điều kiện
+Quản lý đã đăng nhập thành công vào hệ thống.
+Luồng sự kiện chính
+(Thành công)
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+
+1.
+Quản lý
+Lựa chọn kỳ thống kê (Tháng/Quý/Năm) hoặc khoảng thời gian tùy chỉnh.
+
+
+
+2.
+Quản lý
+Nhập số lượng thuốc cần xếp hạng (ví dụ: Top 10, Top 20).
+
+
+
+3.
+Hệ thống
+Truy xuất toàn bộ dữ liệu từ các phiếu xuất kho trong khoảng thời gian đã chọn.
+
+
+
+4.
+Hệ thống
+Tính toán tổng số lượng mặt hàng và tổng giá trị giao dịch của kỳ báo cáo.
+
+
+
+5.
+Hệ thống
+Hiển thị danh sách kết quả kèm theo thông tin chi tiết: Mã thuốc, Tên thuốc, Nhóm thuốc, Số lượng bán, Doanh thu tương ứng.
+
+
+
+
+
+6.
+Quản lý
+Hiển thị kết quả dưới dạng biểu đồ tròng để trực quan hóa dữ liệu.
+
+Luồng sự kiện thay thế
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+
+3a
+Hệ thống
+Thông báo: Nếu chưa có dữ liệu bán hàng trong kỳ, hệ thống hiển thị thông báo "Không có dữ liệu thống kê".
+
+Hậu điều kiện
+Danh sách thuốc bán chạy được hiển thị; trạng thái dữ liệu kho không thay đổi.
+
+
+Bảng 2-19 Đặc tả chức năng “Thống kê thuốc bán chạy”
+* Dữ liệu đầu vào gồm các trường dữ liệu sau:
+STT
+Trường dữ liệu
+ Mô tả
+Bắt buộc?
+Điều kiện hợp lệ
+Ví dụ
+1
+Kỳ thống kê
+Khoảng thời gian cần phân tích
+Có
+Chọn từ danh sách hoặc nhập ngày hợp lệ.
+01/05/2024
+2
+Số lượng xếp hạng
+Số lượng sản phẩm đứng đầu cần xem
+Có
+Phải là số nguyên dương (>0).
+10
+3
+Nhóm thuốc
+Lọc theo phân loại thuốc cụ thể
+Không
+Chọn từ Danh mục nhóm thuốc.
+Thuốc kháng sinh
+4
+Đơn vị tính
+Tiêu chí thống kê (Số lượng hoặc Doanh thu)
+Có
+Lựa chọn từ hệ thống.
+Số lượng bán
+
+Bảng 2-20 Dữ liệu chức năng “Thống kê thuốc bán chạy”
+
+2.6.11 Báo cáo doanh thu
+Mã Use case
+UC011
+Tên Use case
+Báo cáo doanh
+thu
+Tác nhân
+Quản lý
+Mô tả
+Hệ thống thực hiện truy xuất, tính toán tổng giá trị các hóa đơn bán hàng để đưa ra con số doanh thu thực tế trong kỳ báo cáo.
+Sự kiện kích hoạt
+Người dùng thực hiện thao tác click vào chức năng "Báo cáo doanh thu" trên giao diện điều hướng của hệ thống.
+Tiền điều kiện
+Quản lý đã đăng nhập thành công vào hệ thống.
+Luồng sự kiện chính
+(Thành công)
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+
+
+1.
+Quản lý
+Lựa chọn mốc thời gian cần xem báo cáo (Từ ngày... Đến ngày...).
+
+
+
+2.
+Quản lý
+Chọn tiêu chí lọc bổ sung như: Theo Dược sĩ bán hàng, Theo Nhóm thuốc hoặc Theo Khách hàng.
+
+
+
+3.
+Hệ thống
+Truy xuất toàn bộ thông tin từ các Phiếu xuất thuốc thỏa mãn điều kiện lọc.
+
+
+
+4.
+Hệ thống
+Thực hiện tính tổng thành tiền sau khi đã trừ các khoản chiết khấu hoặc giảm giá.
+
+
+
+5.
+Hệ thống
+Hiển thị kết quả doanh thu tổng quát kèm biểu đồ tăng trưởng doanh thu theo ngày/tháng.
+
+
+
+6.
+Quản lý
+Thực hiện kết xuất báo cáo ra định dạng Excel hoặc PDF để báo cáo cấp trên.
+
+Luồng sự kiện thay thế
+
+STT
+Thực hiện bởi
+Hành động
+
+
+
+1a.
+Hệ thống
+Thông báo lỗi: Nếu định dạng ngày tháng không hợp lệ hoặc ngày kết thúc trước ngày bắt đầu.
+
+
+
+3a.
+Hệ thống
+Thông báo: Nếu không có bất kỳ giao dịch nào phát sinh trong kỳ, hệ thống hiển thị "Không có dữ liệu doanh thu".
+
+
+
+
+
+
+
+Hậu điều kiện
+Danh sách thuốc bán chạy được hiển thị; trạng thái dữ liệu kho không thay đổi.
+
+
+Bảng 2-21 Đặc tả chức năng “Báo cáo doanh thu”
+* Dữ liệu đầu vào gồm các trường dữ liệu sau:
+STT
+Trường dữ liệu
+Mô tả
+Bắt buộc?
+Điều kiện hợp lệ
+Ví dụ
+1
+Từ ngày
+Ngày bắt đầu kỳ kế toán
+Có
+Định dạng DD/MM/YYYY.
+01/01/2024
+2
+Đến ngày
+Ngày kết thúc kỳ kế toán
+Có
+Phải sau hoặc trùng với "Từ ngày".
+31/01/2024
+3
+Hình thức xuất
+Lọc theo bán lẻ hoặc đơn thuốc
+Không
+Lựa chọn từ danh sách hệ thống.
+Bán lẻ
+4
+Mã Dược sĩ
+Lọc doanh thu theo nhân viên
+Không
+Phải tồn tại trong danh mục người dùng.
+DS001
+5
+Đơn vị tiền tệ
+Loại tiền ghi nhận doanh thu
+Có
+Thường mặc định là VND.
+VND
+Bảng 2-22 Dữ liệu chức năng “Báo cáo doanh thu”
+
+2.7 Biểu đồ hoạt động
+2.7.1 Biều đồ hoạt động bán thuốc
+
+
+
+Hình 2-20 Biểu đồ hoạt động bán thuốc
+
+2.7.2nhập thuốc vào kho
+
+
+
+Hình 2-21 Biểu đồ hoạt động nhập thuốc vào kho
+2.7.3báo cáo hoạt động
+
+
+Hình 2-22 Biểu đồ hoạt động báo cáo hoạt động
+
+
+
+
+
+2.7.4báo cáo doanh thu
+
+
+Hình 2-23 Biểu đồ hoạt động báo cáo doanh thu
+
+
+
+3 Các yêu cầu phi chức năng
+3.1 Giao diện người dùng (Usability)
+Giao diện thân thiện, dễ thao tác cho dược sĩ trong quá trình bán lẻ.
+Hỗ trợ hiển thị tốt trên các thiết bị khác nhau (PC, Tablet, Mobile).
+3.2 Tính bảo mật (Security)
+Phân quyền chi tiết: Chỉ người dùng có vai trò tương ứng mới được truy cập dữ liệu quản lý kho và báo cáo.
+Yêu cầu đăng nhập và xác thực cho mọi tác vụ trong hệ thống.
+3.3 Ràng buộc hệ thống (Constraints)
+Vận hành ổn định trên nền tảng Web hoặc cài đặt trên Windows.
+Cơ sở dữ liệu phải đảm bảo tính toàn vẹn (ví dụ: SQL Server 2008 R2 trở lên hoặc MySQL).
+3.4 Hiệu suất (Performance)
+Thời gian phản hồi khi tra cứu thuốc và tồn kho không quá 2 giây.
+Hệ thống có khả năng xử lý đồng thời nhiều giao dịch bán hàng tại quầy.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4 Thiết kế chương trình
+4.1 Thiết kế kiến trúc
+Hệ thống “Quản lý quầy thuốc” được xây dựng dựa trên kiến trúc Model-ViewController (MVC). Đây là một mẫu kiến trúc phần mềm phổ biến, đặc biệt hiệu quả trong phát triển các ứng dụng web hiện nay, giúp tách biệt các thành phần của ứng dụng để dễ dàng quản lý, bảo trì và phát triển song song giữa frontend và backend.
+
+Kiến trúc MVC chia hệ thống thành ba thành phần chính có trách nhiệm riêng biệt:
+Model: Chứa dữ liệu cốt lõi của ứng dụng và các logic nghiệp vụ (business logic) liên quan đến hoạt động của quầy thuốc. Thành phần này chịu trách nhiệm quản lý trạng thái của ứng dụng, thực hiện các thao tác xử lý, tính toán (như tính tổng tiền phiếu xuất, trừ số lượng tồn kho, kiểm tra hạn sử dụng), truy xuất và lưu trữ dữ liệu thông qua cơ sở dữ liệu. Model hoạt động độc lập và không phụ thuộc vào View hay Controller.
+View: Chịu trách nhiệm hiển thị dữ liệu cho người dùng (Dược sĩ, Quản lý, Admin) và thu nhận các tương tác từ người dùng (như nhập thông tin thuốc mới, tạo phiếu xuất bán lẻ, chọn mốc thời gian xem báo cáo). View không chứa logic nghiệp vụ phức tạp mà chỉ tập trung vào việc trình bày thông tin nhận được từ Model thông qua sự điều hướng của Controller.
+Controller: Đóng vai trò trung gian, điều phối luồng dữ liệu và sự tương tác giữa Model và View. Controller tiếp nhận các yêu cầu (input) từ Dược sĩ hoặc Quản lý thông qua View, kiểm tra tính hợp lệ của yêu cầu, sau đó gọi đến các phương thức xử lý tương ứng trong Model. Khi có kết quả, Controller sẽ chọn View thích hợp để hiển thị lại cho người dùng.
+Ưu điểm của MVC khi áp dụng cho quản lý quầy thuốc:
+Phân tách rõ ràng: Giúp mã nguồn rõ ràng, dễ dàng bảo trì và nâng cấp. Khi quy trình bán hàng hoặc chính sách báo cáo doanh thu thay đổi, lập trình viên chỉ cần cập nhật ở tầng Model mà không làm ảnh hưởng đến giao diện.
+Tái sử dụng cao: Các logic xử lý cốt lõi (như hàm kiểm tra tồn kho, tính chiết khấu) có thể được sử dụng chung cho nhiều màn hình giao diện khác nhau.
+Kiến trúc MVC được áp dụng cụ thể cho hệ thống “Quản lý quầy thuốc” như sau:
+Model:
+Bao gồm các package chứa các class đại diện cho thực thể, logic nghiệp vụ cốt lõi và lớp truy cập cơ sở dữ liệu. Mỗi gói con quản lý một nghiệp vụ cụ thể của nhà thuốc: o Thuốc & Tồn kho: Quản lý thông tin chi tiết của danh mục thuốc (mã thuốc, tên, nhóm thuốc, giá bán, hạn sử dụng) và kiểm soát số lượng tồn kho theo thời gian thực.
+Nhập - Xuất: Quản lý thông tin quy trình luân chuyển hàng hóa, bao gồm lập phiếu nhập từ nhà cung cấp và tạo phiếu xuất bán lẻ/theo đơn.
+Báo cáo - Thống kê: Xử lý các tính toán tổng hợp phức tạp để cho ra dữ liệu báo cáo hoạt động nhập/xuất, doanh thu theo kỳ và xếp hạng thuốc bán chạy.
+Tài khoản hệ thống: Quản lý thông tin tài khoản, mật khẩu, trạng thái hoạt động và vai trò phân quyền (Admin, Quản lý, Dược sĩ).
+View:
+Bao gồm các package chứa các thành phần giao diện người dùng (UI):
+Giao diện Đăng nhập / Đăng ký: Màn hình xác thực người dùng vào hệ thống. o Giao diện Trang chủ (Dashboard): Màn hình tổng quan, hiển thị các menu chức năng tương ứng với quyền hạn của người đăng nhập.
+Giao diện Bán lẻ: Màn hình thao tác chính của Dược sĩ để tra cứu thuốc, thêm vào giỏ hàng, tính tiền và xuất hóa đơn.
+Giao diện Quản lý Thuốc & Tồn kho: Màn hình dành cho Quản lý và Dược sĩ để xem danh sách thuốc, cảnh báo thuốc sắp hết/hết hạn.
+Giao diện Quản lý Nhập/Xuất: Màn hình danh sách và chi tiết các phiếu nhập, phiếu xuất.
+Giao diện Báo cáo & Thống kê: Màn hình hiển thị kết quả doanh thu, biểu đồ trực quan về thuốc bán chạy.
+Giao diện Quản trị hệ thống: Màn hình dành riêng cho Admin thao tác tạo mới, khóa/mở khóa và phân quyền tài khoản.
+Controller:
+Bao gồm các class điều khiển xử lý luồng sự kiện nhận từ View và tương tác với Model:
+TaiKhoanController: Xử lý logic đăng nhập, tạo tài khoản, đổi trạng thái và phân quyền.
+ThuocController: Tiếp nhận các thao tác thêm, sửa, xóa, tìm kiếm thuốc và điều phối dữ liệu từ Model Thuốc lên View.
+PhieuXuatController / PhieuNhapController: Điều phối quy trình tạo mới và chỉnh sửa phiếu, đồng thời gọi các hàm để tự động cập nhật số lượng tồn kho sau khi lập phiếu thành công.
+TonKhoController: Trích xuất dữ liệu tồn kho hiện tại để cảnh báo lên màn hình quản lý.
+BaoCaoController: Tiếp nhận bộ lọc (từ ngày... đến ngày...) từ người dùng, gửi yêu cầu tính toán xuống Model và trả dữ liệu đã xử lý kèm biểu đồ lên View báo cáo.
+<<Interface>> QuanLy<T>: Một interface generic được định nghĩa để chuẩn hóa các thao tác (Thêm, Đọc, Sửa, Xóa) cho các Controller khác triển khai (implements).
+ Hình 4-1 Mô hình MVC
+4.2 Thiết kế cơ sở dữ liệu
+
+
+Hình 4-2 Cơ sở dữ liệu tổng quan
+4.2.1 Thiết kế cơ sỡ dữ liệu cho nhóm Quản lý tài khoản
+
+
+
+
+
+• Sơ đồ quan hệ giữa các bảng:
+
+
+Hình 4-3 Cơ sở dữ liệu cho nhóm chức năng “Quản lý tài khoản”
+
+Đặc tả thiết kế dữ liệu cho từng bảng:
+
+Bảng vaitro:
+
+Tên trường
+Kiểu dữ liệu
+Kích thước
+Ràng buộc toàn vẹn
+Khuôn dạng
+Ghi chú
+MaVaiTro
+VARCHAR
+20
+Khóa chính
+Chuỗi viết hoa không dấu, không khoảng trắng (VD:
+ADMIN,QUANLY,
+DUOCSI)
+Mã định danh phân quyền hệ thống.
+TenVaiTro
+NVARCHAR
+50
+Bắt buộc (NOT
+NULL)
+Chuỗi ký tự chuẩn (VD:
+Admin, Quản lý, Dược sĩ)
+Tên hiển thị vai trò của tác nhân hệ thống.
+
+
+Bảng taikhoan:
+
+Tên trường
+Kiểu dữ liệu
+Kích thước
+Ràng buộc toàn vẹn
+Khuôn dạng
+Ghi chú
+MaTaiKhoan
+VARCHAR
+20
+Khóa chính (PK), Bắt buộc
+(NOT NULL)
+Tiền tố + số (VD:
+AD001, QL001,
+DS001)
+Mã định danh duy nhất của nhân viên.
+TenDangNhap
+VARCHAR
+50
+Bắt buộc (NOT NULL),
+Duy nhất (UNIQUE)
+Chữ và số, không khoảng trắng, >= 8 ký tự
+Tên đăng nhập hệ thống của nhân viên.
+MatKhau
+VARCHAR
+255
+Bắt buộc (NOT NULL)
+Tối thiểu 6 ký tự
+Mật khẩu truy cập hệ thống (cần băm Hash).
+HoTen
+NVARCHAR
+255
+Bắt buộc (NOT NULL)
+Chuỗi ký tự (VD:
+Nguyễn Văn Nam)
+Họ và tên đầy đủ của nhân viên.
+Email
+VARCHAR
+100
+Duy nhất (UNIQUE), Có thể rỗng (NULL)
+Định dạng email (VD:
+abc@email.com)
+Địa chỉ email liên lạc.
+SoDienThoai
+VARCHAR
+15
+Duy nhất (UNIQUE), Có thể rỗng (NULL)
+Chữ số, độ dài 10-11 số
+(VD: 0901234567)
+Số điện thoại liên hệ của nhân viên.
+MaVaiTro
+VARCHAR
+20
+Khóa ngoại (FK) tham chiếu VaiTro(MaVaiTro)
+Khớp với MaVaiTro trong bảng VaiTro
+Xác định quyền hạn: Admin,
+Quản lý, Dược sĩ.
+TrangThai
+NVARCHAR
+50
+Bắt buộc (NOT NULL),
+Mặc định: 'Hoạt động'
+Chỉ nhận: Hoạt động hoặc Khóa
+Trạng thái truy cập hệ thống.
+NgayTao
+DATETIME
+
+Bắt buộc, Mặc định:
+CURRENT_TIMESTAMP
+Định dạng
+DD/MM/YYYY
+HH:MM
+Thời điểm tài khoản được tạo.
+GhiChu
+NVARCHAR
+500
+Có thể rỗng (NULL)
+Tối đa 500 ký tự
+Lý do khóa tài khoản hoặc ghi chú thêm.
+
+4.2.2 Thiết kế cơ sở dữ liệu cho nhóm Quản lý danh mục thuốc & Tồn kho
+• Sơ đồ quan hệ giữa các bảng:
+
+ Hình 4-4 Sơ đồ quan hệ giữa các bảng thuốc, lô thuốc, nhóm thuốc
+Bảng nhomthuoc:
+
+Tên trường
+Kiểu dữ liệu
+Kích thước
+Ràng buộc toàn vẹn
+Khuôn dạng
+Ghi chú
+MaNhom
+VARCHAR
+20
+Khóa chính (PK), Bắt buộc (NOT NULL)
+Tiền tố + số (VD: NT01, KS01)
+Mã nhóm dược phẩm.
+TenNhom
+NVARCHAR
+255
+Bắt buộc (NOT NULL)
+Chuỗi ký tự (VD:
+Thuốc kháng sinh)
+Tên nhóm thuốc để hỗ trợ tra cứu.
+
+Bảng thuoc:
+
+Tên trường
+Kiểu dữ liệu
+Kích thước
+Ràng buộc toàn vẹn
+Khuôn dạng
+Ghi chú
+MaThuoc
+VARCHAR
+50
+Khóa chính (PK), Bắt buộc (NOT
+NULL)
+Tiền tố + mã (VD:
+TH001, PARA500)
+Mã định danh duy nhất của thuốc.
+TenThuoc
+NVARCHAR
+255
+Bắt buộc (NOT NULL)
+Chuỗi ký tự (VD:
+Paracetamol 500mg)
+Tên thương mại của dược phẩm.
+MaNhom
+VARCHAR
+20
+Khóa ngoại (FK) tham chiếu
+NhomThuoc(MaNhom)
+Khớp với MaNhom trong bảng NhomThuoc
+Phân loại nhóm thuốc.
+DonViTinh
+NVARCHAR
+50
+Bắt buộc (NOT NULL)
+Chuỗi ký tự (VD: Viên,
+Vỉ, Hộp)
+Đơn vị tính để bán lẻ.
+GiaBan
+INT
+
+Bắt buộc (NOT NULL), Ràng buộc CHECK (> 0)
+Số nguyên dương (VD:
+5000)
+Đơn giá bán ra quy định.
+TongTonKho
+INT
+
+Bắt buộc (NOT NULL), Mặc định: 0
+Số nguyên (>= 0)
+Tổng tồn kho hiện tại của tất cả các lô.
+TonToiThieu
+INT
+
+Bắt buộc (NOT NULL), Mặc định: 10
+Số nguyên (>= 0)
+Ngưỡng hệ thống cảnh báo sắp hết hàng.
+
+Bảng lothuoc:
+
+Tên trường
+Kiểu dữ liệu
+Kích thước
+Ràng buộc toàn vẹn
+Khuôn dạng
+Ghi chú
+MaLo
+VARCHAR
+50
+Khóa chính (PK)
+Chữ và số do NSX quy định (VD: LOT24A)
+Mã lô sản xuất.
+MaThuoc
+VARCHAR
+50
+Khóa chính (PK), Khóa ngoại
+(FK) tham chiếu Thuoc(MaThuoc)
+Khớp với MaThuoc trong bảng Thuoc
+Mã thuốc thuộc lô này.
+HanSuDung
+DATE
+
+Bắt buộc (NOT NULL)
+Định dạng
+DD/MM/YYYY
+Hạn sử dụng riêng của lô thuốc này.
+SoLuongTonLo
+INT
+
+Bắt buộc (NOT NULL), Mặc định: 0
+Số nguyên (>= 0)
+Số lượng tồn kho thực tế của lô này.
+
+
+4.2.3 Thiết kế cơ sở dữ liệu cho nhóm Quản lý Nhập/Xuất
+• Sơ đồ quan hệ giữa các bảng:
+
+
+Bảng nhacungcap:
+
+Tên trường
+Kiểu dữ liệu
+Kích thước
+Ràng buộc toàn vẹn
+Khuôn dạng
+Ghi chú
+MaNCC
+VARCHAR
+50
+Khóa chính (PK), Bắt buộc
+(NOT NULL)
+Tiền tố + số (VD:
+NCC001)
+Mã định danh đối tác cung cấp thuốc.
+TenNCC
+NVARCHAR
+255
+Bắt buộc (NOT NULL)
+Chuỗi ký tự
+Tên đầy đủ của nhà cung cấp/công ty dược.
+SoDienThoai
+VARCHAR
+15
+Có thể rỗng (NULL)
+Chữ số, 10-11 ký tự
+Số điện thoại liên hệ đối tác.
+DiaChi
+NVARCHAR
+500
+Có thể rỗng (NULL)
+Chuỗi ký tự
+Địa chỉ của nhà cung cấp.
+
+Bảng phieunhap:
+
+Tên trường
+Kiểu dữ liệu
+Kích thước
+Ràng buộc toàn vẹn
+Khuôn dạng
+Ghi chú
+MaPN
+VARCHAR
+50
+Khóa chính (PK), Bắt buộc (NOT
+NULL)
+Tiền tố + chuỗi (VD:
+PN240501_01)
+Mã định danh phiếu nhập kho.
+NgayNhap
+DATETIME
+
+Bắt buộc (NOT NULL)
+Định dạng
+DD/MM/YYYY
+HH:MM
+Thời điểm thực hiện nhập hàng vào kho.
+MaNCC
+VARCHAR
+50
+Khóa ngoại (FK) tham chiếu
+NhaCungCap(MaNCC)
+Khớp với MaNCC trong
+NhaCungCap
+Nhà cung cấp giao lô hàng này.
+NguoiLap
+VARCHAR
+20
+Khóa ngoại (FK) tham chiếu
+TaiKhoan(MaTaiKhoan)
+Khớp với MaTaiKhoan trong TaiKhoan
+Tài khoản quản lý thực hiện lập phiếu.
+TongTien
+INT
+
+Bắt buộc (NOT NULL), Mặc định:
+0
+Số nguyên (>= 0)
+Tổng tiền thanh toán cho đơn nhập hàng.
+
+Bảng chitietphieunhap:
+
+Tên trường
+Kiểu dữ liệu
+Kích thước
+Ràng buộc toàn vẹn
+Khuôn dạng
+Ghi chú
+MaPN
+VARCHAR
+50
+Khóa chính (PK), Khóa ngoại (FK)
+Khớp với MaPN trong PhieuNhap
+Liên kết phiếu nhập tương ứng.
+MaThuoc
+VARCHAR
+50
+Khóa chính (PK), Khóa ngoại (FK)
+Khớp với MaThuoc trong LoThuoc
+Thuốc được nhập vào.
+MaLo
+VARCHAR
+50
+Khóa chính (PK) phần
+3, Khóa ngoại (FK)
+Khớp với MaLo trong LoThuoc
+Mã lô của thuốc được nhập (FK map bằng cặp MaLo, MaThuoc).
+SoLuongNhap
+INT
+
+Bắt buộc, Ràng buộc
+CHECK (> 0)
+Số nguyên dương
+Số lượng thuốc thực tế nhập vào theo lô.
+DonGiaNhap
+INT
+
+Bắt buộc, Ràng buộc CHECK (>= 0)
+Số nguyên không âm
+Giá vốn nhập vào của mặt hàng.
+
+Bảng phieuxuat:
+
+Tên trường
+Kiểu dữ liệu
+Kích thước
+Ràng buộc toàn vẹn
+Khuôn dạng
+Ghi chú
+MaPX
+VARCHAR
+50
+Khóa chính (PK), Bắt buộc
+(NOT NULL)
+Tiền tố + chuỗi (VD:
+PX240501_01)
+Mã định danh phiếu xuất (Hóa đơn).
+NguoiBan
+VARCHAR
+20
+Khóa ngoại (FK) tham chiếu
+TaiKhoan(MaTaiKhoan)
+Khớp với MaTaiKhoan trong TaiKhoan
+Dược sĩ lập hóa đơn xuất bán.
+NgayBan
+DATETIME
+
+Bắt buộc (NOT NULL)
+Định dạng
+DD/MM/YYYY
+HH:MM
+Thời điểm ghi nhận giao dịch xuất thuốc.
+LoaiXuat
+NVARCHAR
+50
+Bắt buộc (NOT NULL)
+Bán lẻ trực tiếp / Theo đơn
+Phân loại hình thức bán.
+TenKhachHang
+NVARCHAR
+255
+Có thể rỗng (NULL)
+Chuỗi ký tự
+Tên khách mua hàng (nếu khách cung cấp).
+ChietKhau
+INT
+
+Có thể rỗng, Mặc định: 0
+Số nguyên (>= 0)
+Tiền chiết khấu/giảm giá cho khách.
+TongTien
+INT
+
+Bắt buộc (NOT NULL), Mặc định: 0
+Số nguyên (>= 0)
+Tổng giá trị thu về sau chiết khấu.
+
+Bảng chitietphieuxuat:
+
+Tên trường
+Kiểu dữ liệu
+Kích thước
+Ràng buộc toàn vẹn
+Khuôn dạng
+Ghi chú
+MaPX
+VARCHAR
+50
+Khóa chính (PK), Khóa ngoại (FK)
+Khớp với MaPX trong
+PhieuXuat
+Liên kết phiếu xuất tương ứng.
+MaThuoc
+VARCHAR
+50
+Khóa chính (PK) , Khóa ngoại (FK)
+Khớp với MaThuoc trong
+Thuoc
+Thuốc được bán ra.
+SoLuongXuat
+INT
+
+Bắt buộc, Ràng buộc
+CHECK (> 0)
+Số nguyên dương
+Lượng thuốc bán ra cho khách.
+DonGiaBan
+INT
+
+Bắt buộc, Ràng buộc
+CHECK (>= 0)
+Số nguyên không âm
+Giá bán thực tế tại thời điểm xuất kho.
+ThanhTien
+INT
+
+Bắt buộc (NOT NULL)
+Tính bằng SoLuongXuat * DonGiaBan
+Thành tiền của từng dòng mặt hàng.
+
+4.3 Thiết kế chi tiết các gói
+• Package nguoidung
+
+
+Hình 4-5 Sơ đồ package nguoidung
+
+
+
+
+
+• Package danhmuc
+
+
+Hình 4-6 Sơ đồ package danhmuc
+• Package giaodich
+
+
+Hình 4-7 Sơ đồ package giaodich
+Giải thích thiết kế kiến trúc hệ thống: Quản lý quầy thuốc được thiết kế chia thành 3 package chính nhằm đảm bảo tính module hóa và dễ dàng mở rộng.
+package_nguoidung: Đóng gói toàn bộ logic quản lý nhân sự. Trong đó, áp dụng tính đa hình (kế thừa) để phân tách rõ vai trò của Admin, QuanLy và DuocSi từ lớp abstract NguoiDung, đồng thời áp dụng quan hệ hợp thành (Composition) chặt chẽ với thực thể TaiKhoan.
+package_danhmuc: Quản lý lõi dữ liệu sản phẩm. Sử dụng quan hệ kết tập (Aggregation) để nhóm các Thuoc vào NhomThuoc, giúp hệ thống tra cứu tồn kho dễ dàng theo danh mục.
+package_giaodich: Trừu tượng hóa các nghiệp vụ xuất/nhập qua lớp cha PhieuGiaoDich. Các chi tiết phiếu có quan hệ phụ thuộc (Dependency) mật thiết sang package_danhmuc (tham chiếu đến Thuoc) để tự động trừ/cộng tồn kho một cách đồng bộ mà không làm phá vỡ ranh giới các gói.
+
+4.4 Thiết kế chi tiết lớp
+Class Taikhoan
+
+Class Taikhoan
+
+1. Chứa thông tin tài khoản:
+     private String maTaiKhoan;
+Class VaiTro: Xác định vai trò của tài khoản
+     private String tenDangNhap;      private String matKhau;      private String hoTen;      private String email;      private String soDienThoai;      private String trangThai;      private LocalDateTime ngayTao;      private String ghiChu;
+
+2. Các phương thức xử lý
+   boolean doiMatKhau(String passMoi);    boolean capNhatThongTin();    void khoaTaiKhoan();
+
+
+
+
+
+Class VaiTro
+
+Class Vaitro
+1. Chứa thông tin về VaiTro:      public String MaVaiTro;      public String TenVaiTro;
+
+
+Class Thuoc
+
+Class Thuoc
+
+1. Chứa thông tin về Thuoc:      public String MaThuoc;      public String TenThuoc;        public String DonViTinh;        public int TonToiThieu;    private int giaBan;      private int tongTonKho;  2. Các phương thức xử lý:      public void SetGiaBan(int giaMoi);      public void ThayDoiTonKho(int soLuong);     public boolean KiemTraCanNhapHang();
+Class NhomThuoc: Xác định nhóm phân loại cho thuốc.
+
+
+
+Class LoThuoc
+
+Class LoThuoc
+
+Chứa thông tin về LoThuoc:       public  String MaLo;     public  Date HanSuDung;        private int soLuongTonLo;
+Các phương thức xử lý:      public void CapNhatTonLo(intsoLuong);         public boolean KiemTraHetHan();
+Class Thuoc: Xác định loại thuốc của lô hàng.
+
+
+Abstract Class PhieuGiaoDich
+
+Abstract Class PhieuGiaoDich
+
+1. Chứa thông tin về PhieuGiaoDich:       public  String MaPhieu;    public  LocalDateTime NgayLap;     protected int tongTien; 2. Các phương thức xử lý:     public abstract int TinhTongTien();     public abstract void ChotPhieu();
+Class TaiKhoan: Xác định nhân viên/dược sĩ lập phiếu giao dịch.
+
+Class NhaCungCap
+
+Class NhaCungCap
+Chứa thông tin về NhaCungCap:
+  public String MaNCC;     public String TenNCC;    public String SoDienThoai;   public String DiaChi;
+Các phương thức xử lý:     public void CapNhatThongTin(String tenNCC,
+String sdt, String diaChi);
+
+
+Class PhieuNhap (Kế thừa PhieuGiaoDich)
+
+Class PhieuNhap
+
+Chứa thông tin về PhieuNhap:
+Các phương thức xử lý:   public void ThemChiTiet(ChiTietPhieuNhap chiTiet);
+ public int TinhTongTien();       public void ChotPhieu();
+Class NhaCungCap: Xác định nhà cung cấp cho phiếu nhập.
+Class ChiTietPhieuNhap: Bao gồm danh sách chi tiết các mặt hàng thuốc được nhập trong phiếu.
+
+
+
+Class ChiTietPhieuNhap
+
+Class ChiTietPhieuNhap
+
+1. Chứa thông tin về ChiTietPhieuNhap:
+   private int soLuongNhap;      private int donGiaNhap;  2. Các phương thức xử lý:      public void SetSoLuongVaDonGia(int soLuong, int donGia);
+  public int TinhThanhTienNhap();
+Class PhieuNhap: Xác định phiếu nhập gốc chứa dòng chi tiết này. Class Thuoc: Xác định mặt hàng thuốc được nhập.
+Class LoThuoc: Xác định thông tin lô hàng của thuốc được nhập.
+
+
+Class PhieuXuat (Kế thừa PhieuGiaoDich)
+
+Class PhieuXuat
+
+Chứa thông tin về PhieuXuat:    public String LoaiXuat;      public String TenKhachHang;      private int chietKhau;
+Các phương thức xử lý:      public void ThemChiTiet(ChiTietPhieuXuat chiTiet);      public void SetChietKhau(int phanTram);     public int TinhTongTien();      public void ChotPhieu();
+Class ChiTietPhieuXuat: Bao gồm danh sách chi tiết các mặt hàng thuốc được bán/xuất trong phiếu.
+
+Class ChiTietPhieuXuat
+
+Class ChiTietPhieuXuat
+
+1. Chứa thông tin về ChiTietPhieuXuat:
+  private int soLuongXuat;    private int donGiaBan;     private int thanhTien;  2. Các phương thức xử lý:   public void SetSoLuong(int soLuong);    public int GetThanhTien();
+Class PhieuXuat: Xác định hóa đơn/phiếu xuất gốc chứa dòng chi tiết này.
+ Class Thuoc: Xác định mặt hàng thuốc được bán/xuất.
+
+
+
+4.5 Sơ đồ lớp chi tiết
+
+
+Hình 4-8 Sơ đồ lớp chi tiết
+4.6 Thiết kế giao diện
+
+
+Hình 4-9 Biểu đồ chuyển giao giữa các màn
+
+
+
+Hình 4-10  Mock-up cho màn hình đăng nhập
+• Đặc tả thiết kế màn hình Đăng nhập
+
+Điều khiển
+Thông tin dữ liệu
+Loại
+Thuộc tính
+Ghi chú
+Tiêu đề màn hình
+"Hệ thống Quản lý Quầy Thuốc"
+Text label
+Hiển thị, Kích thước image, Font chữ, Căn giữa
+
+Trường "Tên đăng nhập"
+Chuỗi ký tự nhập vào (tối thiểu 8 ký tự)
+Text Input
+Hiển thị, Placeholder, Maxlength
+Bắt buộc nhập
+Trường "Mật khẩu"
+Chuỗi ký tự mật khẩu nhập vào
+(tối thiểu 6 ký tự)
+Password
+Input
+Hiển thị, Ẩn ký tự (*), Maxlength
+Bắt buộc nhập
+Phím "Đăng nhập"
+Xác nhận thông tin và gửi yêu cầu đăng nhập
+Button
+Hiển thị, Màu nền nổi bật, Sự kiện click
+Gọi API kiểm tra
+CSDL
+
+
+Hình 4-11 Mock-up cho màn hình Admin
+
+• Đặc tả thiết kế màn hình chính Admin
+
+Điều khiển
+Thông tin dữ liệu
+Loại
+Thuộc tính
+Ghi chú
+Menu Sidebar
+Các nút chuyển trang: "QL Tài khoản", "Trạng thái tài khoản"
+Image + text link
+Hiển thị, Font chữ, Sự kiện click
+Nút đang chọn sẽ đổi màu
+(Active)
+Phím "Tạo tài khoản mới "
+Mở form tạo tài khoản mới
+Button
+Hiển thị, Sự kiện click
+
+Cụm Phím "Sửa
+/ Xóa"
+Lệnh thay đổi hoặc xóa thông tin tài khoản
+Button
+Hiển thị, Sự kiện click
+Chỉ thao tác được khi click chọn 1 dòng trong bảng
+Phím "Phân quyền"
+Mở cửa sổ thay đổi vai trò
+(Admin, Quản lý, Dược sĩ)
+Button
+Hiển thị, Sự kiện click
+
+Trường Tìm kiếm
+Từ khóa tìm kiếm tài khoản
+Text Input
+Hiển thị, Sự kiện
+OnChange
+
+Bảng Danh sách Tài khoản
+Hiển thị: Mã TK, Tên Đăng Nhập, Họ Tên, Vai trò, Trạng thái
+Data Table
+Hiển thị, Có thanh cuộn, Phân trang
+Dữ liệu lấy từ bảng taikhoan và vaitro
+
+
+
+
+Hình 4-12 Mock-up cho màn hình Quản lý thuốc và tồn kho
+
+• Đặc tả thiết kế màn hình chính Quản lý
+
+Điều khiển
+Thông tin dữ liệu
+Loại
+Thuộc tính
+Ghi chú
+Menu Sidebar
+Các nút: "QL Thuốc", "Phiếu
+Nhập", "Báo cáo"
+Image + text link
+Hiển thị, Font chữ, Sự kiện click
+
+Khung Cảnh báo tồn kho
+Số lượng thuốc sắp hết / hết hạn sử dụng
+Card + text label
+Hiển thị, Màu sắc (Đỏ/Vàng)
+So sánh số lượng với trường TonToiThieu
+Bộ lọc Nhóm thuốc
+Danh sách các nhóm dược phẩm
+Dropdown
+(Select)
+Hiển thị, Sự kiện select
+Dữ liệu từ bảng nhomthuoc
+Phím "Thêm thuốc"
+Mở form điền thông tin thuốc mới nhập
+Button
+Hiển thị, Sự kiện click
+
+Bảng Danh sách Thuốc
+Hiển thị: Mã Thuốc, Tên, Nhóm,
+Đơn vị tính, Giá Bán, Tồn kho
+Data Table
+Hiển thị, Phân trang,
+Sắp xếp (Sort)
+Dữ liệu lấy từ bảng thuoc
+
+
+
+Hình 4-13 Mock-up màn hình chính Dược sĩ
+
+• Đặc tả thiết kế màn hình chính Dược sĩ
+
+Điều khiển
+Thông tin dữ liệu
+Loại
+Thuộc tính
+Ghi chú
+Trường Tra cứu tồn kho
+Nhập từ khóa tên thuốc hoặc quét mã vạch
+Text Input
+Hiển thị, Sự kiện
+OnChange
+
+Danh sách Thuốc
+(Trái)
+Hiện các thẻ thuốc (Tên, Giá, Tồn kho) kèm nút "Thêm"
+Grid View +
+Button
+Hiển thị, Sự kiện click
+(Thêm)
+Thuốc hết tồn kho sẽ mờ đi
+Bảng Phiếu Xuất (Phải)
+Chứa các loại thuốc khách mua: Tên, Số lượng, Thành tiền
+List / Data Table
+Hiển thị, Có thanh cuộn dọc
+
+Phím Tăng/Giảm
+(+/-)
+Điều chỉnh số lượng từng mặt hàng trong đơn
+Icon Button
+Hiển thị, Sự kiện click
+Tự động tính lại "Thành tiền"
+Khung Tổng tiền
+Tổng giá trị hóa đơn (sau chiết khấu nếu có)
+Text label
+Hiển thị, Font chữ to, in đậm
+
+Phím "Thanh toán"
+Lệnh xuất hóa đơn và kết thúc giao dịch
+Button
+Hiển thị, Màu nổi bật, Sự kiện click
+Hệ thống tự động trừ
+TongTonKho
+
+
+Hình 4-14 Mock-up màn hình chính báo cáo – thống kê
+
+• Đặc tả thiết kế màn hình Báo cáo - Thống kê
+
+Điều khiển
+Thông tin dữ liệu
+Loại
+Thuộc tính
+Ghi chú
+Thanh Tab điều hướng
+Các tab: BC Hoạt động, BC
+Doanh thu, Thuốc bán chạy
+Tab View
+Hiển thị, Trạng thái
+Active
+Chuyển đổi qua lại giữa các loại báo cáo
+Bộ lọc Thời gian
+Mốc thời gian (Từ ngày ... Đến ngày)
+Date Picker
+Hiển thị, Sự kiện
+OnChange
+Validate: Ngày kết thúc ≥
+Ngày bắt đầu
+Phím "Xuất
+file"
+Lựa chọn định dạng xuất báo cáo
+Dropdown
+Button
+Hiển thị, Sự kiện click
+Hỗ trợ tải xuống file Excel,
+PDF
+Khung Biểu đồ
+Trực quan hóa số liệu (Doanh thu hoặc Top bán chạy)
+Chart
+(Bar/Pie)
+Hiển thị, Kích thước
+Cập nhật động theo "Bộ lọc thời gian"
+Bảng Chi tiết Số liệu
+Liệt kê chi tiết: Mã Phiếu, Ngày GD, Tên Thuốc, Thành tiền
+Data Table
+Hiển thị, Phân trang
+Kết xuất từ bảng phieuxuat, chitietphieuxuat

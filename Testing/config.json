@@ -1,0 +1,44 @@
+{
+  "source_workbook": "C:/Users/ADMIN/Downloads/Test_Report_2.xlsx",
+  "tester": "Python Playwright Chromium",
+  "backend_port": 8010,
+  "frontend_port": 3010,
+  "base_url": "http://127.0.0.1:3010",
+  "api_url": "http://127.0.0.1:8010/api/v1",
+  "headless": false,
+  "browser_channel": "chromium",
+  "timeout_ms": 5000,
+  "assert_timeout_ms": 3000,
+  "performance_limit_seconds": 2.0,
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "credentials": {
+    "admin": {
+      "username": "admin_clin_01",
+      "password": "admin123",
+      "id": "AD001",
+      "role": "ADMIN"
+    },
+    "manager": {
+      "username": "manager_pharma",
+      "password": "manager123",
+      "id": "QL001",
+      "role": "QUANLY"
+    },
+    "pharmacist": {
+      "username": "duocsi_02",
+      "password": "duocsi123",
+      "id": "DS001",
+      "role": "DUOCSI"
+    }
+  },
+  "policy": {
+    "check_server_authorization": true,
+    "stock_status_rule_confirmed": false,
+    "notes": "UI là bước chính. Với ca phân quyền, kiểm tra bổ sung POST từ cùng phiên trình duyệt; không giả mạo quyền. Không tự giả định quy tắc Còn/Sắp hết."
+  },
+  "slow_mo_ms": 200,
+  "case_hold_ms": 1200
+}

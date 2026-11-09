@@ -1,0 +1,26 @@
+{
+  "defaults": {"username": "qauser99", "password": "Hien@12", "confirmation": "Hien@12", "full_name": "Nguyễn Văn Nam", "role": "DUOCSI"},
+  "cases": {
+    "F2_TC002": {"username": "qadsi001", "role": "DUOCSI", "explicit_success_notification": true},
+    "F2_TC003": {"username": "qaql0001", "role": "QUANLY", "explicit_success_notification": true},
+    "F2_TC004": {"username": "qaadm001", "role": "ADMIN", "explicit_success_notification": true},
+    "F2_TC005": {"username": "qadsi002", "verify_login": true},
+    "F2_TC006": {"username": "", "password": "", "confirmation": "", "full_name": "", "validation": "required"},
+    "F2_TC007": {"username": "", "validation": "required"},
+    "F2_TC008": {"password": "", "validation": "required"},
+    "F2_TC009": {"confirmation": "", "validation": "required"},
+    "F2_TC010": {"full_name": "", "validation": "required"},
+    "F2_TC011": {"username": "qauser1", "validation": "username_length"},
+    "F2_TC012": {"username": "qauser01"},
+    "F2_TC013": {"username": "qauser001"},
+    "F2_TC014": {"password": "Ab@12", "confirmation": "Ab@12", "validation": "password_length"},
+    "F2_TC015": {"password": "Ab@123", "confirmation": "Ab@123", "verify_login": true},
+    "F2_TC016": {"password": "Ab@1234", "confirmation": "Ab@1234", "verify_login": true},
+    "F2_TC017": {"username": "qauser02", "confirmation": "Hien@13", "validation": "confirmation"},
+    "F2_TC018": {"username": "qauser03", "confirmation": "hien@12", "validation": "confirmation"},
+    "F2_TC019": {"username": "qaduc001", "full_name": "Trần Đức Quân", "role": "QUANLY"},
+    "F2_TC020": {"unauthorized_role": "guest"},
+    "F2_TC021": {"unauthorized_role": "pharmacist"},
+    "F2_TC022": {"unauthorized_role": "manager"}
+  }
+}
